@@ -153,84 +153,74 @@ document.getElementById('unsortBtn').addEventListener('click', (event) => {
 function setRacerListeners(element) {
   const isWrapper = element.classList.contains('wrapper');
 
-  const toggleSelection = (e) => {
-    e.stopPropagation();
-    // ここでは選択状態を一時的に無効化する
-    if (!isWrapper && !isDragActive) {
-      element.classList.toggle('selected');
-      if (element.classList.contains('selected')) {
-        element.style.transform = 'scale(1.2)';
-        element.style.zIndex = '1000';
-      } else {
-        element.style.transform = 'scale(1)';
-        element.style.zIndex = 'auto';
-      }
-    }
-  };
-
-  // ドラッグ関連フラグ
-  let isDragActive = false;
-
-  // タッチとクリックのイベント設定
+  // タッチデバイスかどうかを判定してイベントを分ける
   if ('ontouchstart' in window) {
-    // タッチ開始で選択状態を切り替えないようにする
+    // タッチイベント
     element.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // スクロールや選択の動作を防ぐ
       if (isWrapper) {
-        // タッチ後すぐにドラッグを開始しない
-        e.preventDefault();
-        setTimeout(() => {
-          startDrag(e);
-          isDragActive = true;
-        }, 200);  // 200ms後にドラッグ開始
+        startDrag(e);
       }
     }, { passive: false });
 
     element.addEventListener('touchmove', (e) => {
-      // ドラッグ中は選択を無効化
-      if (isDragActive) {
-        e.preventDefault();
-      }
-    }, { passive: false });
-
-    element.addEventListener('touchend', () => {
-      isDragActive = false;
-    });
-  } else {
-    element.addEventListener('click', toggleSelection);
-  }
-
-  if (isWrapper) {
-    // グループ化された選手のドラッグイベント
-    element.addEventListener('mousedown', startDrag);
-
-    // スマホで長押しでのみドラッグ許可
-    let longPressTimer = null;
-    element.addEventListener('touchstart', (e) => {
       e.preventDefault();
-      longPressTimer = setTimeout(() => {
-        startDrag(e); // 長押しされたら startDrag を実行
-      }, 300);
+      drag(e); // ドラッグの移動処理
     }, { passive: false });
 
-    element.addEventListener('touchend', () => {
-      clearTimeout(longPressTimer);
-    });
-    element.addEventListener('touchmove', () => {
-      clearTimeout(longPressTimer);
-    });
+    element.addEventListener('touchend', endDrag);
   } else {
-    element.addEventListener('mousedown', startDrag);
+    // マウスイベント
+    element.addEventListener('mousedown', (e) => {
+      e.preventDefault(); // 初回の選択やスクロールを防ぐ
+      startDrag(e);
+    });
+
+    element.addEventListener('mousemove', drag);
+    element.addEventListener('mouseup', endDrag);
   }
 }
 
-// `startDrag`の実装例（仮にドラッグ開始処理を設定）
 function startDrag(e) {
-  console.log("ドラッグ開始");
-  // ここにドラッグ開始処理を書く
+  e.preventDefault(); // 重要: これで選択やスクロール動作を無効化
+  const isTouch = e.type === 'touchstart';
+  const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+  const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+
+  current = e.currentTarget;
+  offsetX = clientX - current.offsetLeft;
+  offsetY = clientY - current.offsetTop;
+
+  if (isTouch) {
+    document.addEventListener('touchmove', drag, { passive: false });
+    document.addEventListener('touchend', endDrag);
+  } else {
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', endDrag);
+  }
+}
+
+function drag(e) {
+  if (!current) return;
+  e.preventDefault(); // 重要: ドラッグ中に他の動作を防ぐ
+
+  const isTouch = e.type === 'touchmove';
+  const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+  const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+
+  current.style.left = `${clientX - offsetX}px`;
+  current.style.top = `${clientY - offsetY}px`;
+}
+
+function endDrag() {
+  current = null;
+  document.removeEventListener('mousemove', drag);
+  document.removeEventListener('mouseup', endDrag);
+  document.removeEventListener('touchmove', drag);
+  document.removeEventListener('touchend', endDrag);
 }
 
 
-// ここではドラッグ関連の処理が依然として有効です
 
 
 
