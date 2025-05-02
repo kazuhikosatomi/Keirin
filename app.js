@@ -106,9 +106,12 @@ document.getElementById('groupBtn').addEventListener('click', () => {
 
 
 
-document.getElementById('unsortBtn').addEventListener('click', (event) => {
-  const allWrappers = document.querySelectorAll('.wrapper');
+let selectedDisabled = false; // 選択機能を無効化するフラグ
 
+document.getElementById('unsortBtn').addEventListener('click', (event) => {
+  selectedDisabled = true; // 「バラす」後は選択を無効化
+
+  const allWrappers = document.querySelectorAll('.wrapper');
   allWrappers.forEach(wrapper => {
     const group = wrapper.querySelector('.group');
     if (!group) return;
@@ -127,7 +130,7 @@ document.getElementById('unsortBtn').addEventListener('click', (event) => {
       const racerTop = parseInt(racer.style.top) + wrapperTop;
       racer.style.left = `${racerLeft}px`;
       racer.style.top = `${racerTop}px`;
-      setRacerListeners(racer);
+      setRacerListeners(racer); // 個別の選手にリスナーをセット
       racer.style.border = '';
     });
 
@@ -149,7 +152,7 @@ function setRacerListeners(element) {
 
   const toggleSelection = (e) => {
     e.stopPropagation();
-    if (!isWrapper) {
+    if (!isWrapper && !selectedDisabled) { // 選択無効化フラグを追加
       element.classList.toggle('selected');
       if (element.classList.contains('selected')) {
         element.style.transform = 'scale(1.2)';
@@ -170,32 +173,6 @@ function setRacerListeners(element) {
 
   if (isWrapper) {
     element.addEventListener('mousedown', startDrag);
-
-    // スマホで長押しでのみドラッグ許可
-    let longPressTimer = null;
-    let isDragging = false;  // ドラッグ状態のフラグ
-
-    // touchstart イベントでコピー機能を防止
-    element.addEventListener('touchstart', (e) => {
-      e.preventDefault();  // コピーや選択を防ぐ
-      isDragging = false;  // 長押し前にドラッグ状態をリセット
-      longPressTimer = setTimeout(() => {
-        isDragging = true;  // 長押しが完了したらドラッグ可能に
-        startDrag(e); // 長押しされたら startDrag を実行
-      }, 300);
-    }, { passive: false });
-
-    element.addEventListener('touchend', () => {
-      clearTimeout(longPressTimer);
-      if (isDragging) {
-        // 長押し後のドラッグ終了処理
-        endDrag();
-      }
-    });
-
-    element.addEventListener('touchmove', () => {
-      clearTimeout(longPressTimer);  // タッチ移動でタイマーをリセット
-    });
   } else {
     element.addEventListener('touchstart', (e) => {
       const parent = element.closest('.wrapper');
@@ -207,6 +184,11 @@ function setRacerListeners(element) {
 
     element.addEventListener('mousedown', startDrag);
   }
+}
+
+// 「バラす」後に選択を再度有効化するには以下の関数を使います
+function enableSelection() {
+  selectedDisabled = false;
 }
 
 
