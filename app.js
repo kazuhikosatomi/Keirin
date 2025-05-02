@@ -138,20 +138,12 @@ document.getElementById('unsortBtn').addEventListener('click', (event) => {
 });
 
 function setRacerListeners(element) {
-  let touchStartTime = 0;
+  const isWrapper = element.classList.contains('wrapper');
 
-  // 選択トグル処理（click or 短いタップ）
-  const toggleSelection = () => {
-    element.classList.toggle('selected');
-
-    const label = element.querySelector('.group-label');
-    if (label) label.style.border = 'none';
-
-    element.style.border = 'none';
-    const group = element.querySelector('.group');
-    if (group) group.style.border = 'none';
-
-    if (element.classList.contains('racer')) {
+  const toggleSelection = (e) => {
+    e.stopPropagation();
+    if (!isWrapper) {
+      element.classList.toggle('selected');
       if (element.classList.contains('selected')) {
         element.style.transform = 'scale(1.2)';
         element.style.zIndex = '1000';
@@ -162,29 +154,29 @@ function setRacerListeners(element) {
     }
   };
 
-  // タッチ用：短いタップで選択、長押しはドラッグに任せる
-  element.addEventListener('touchstart', (e) => {
-    touchStartTime = Date.now();
-  }, { passive: true });
-
-  element.addEventListener('touchend', (e) => {
-    const duration = Date.now() - touchStartTime;
-    if (duration < 200) {  // 200ms未満の短いタップ
-      e.preventDefault();
-      toggleSelection();
-    }
+  // click / touchstart で選択処理
+  ['click', 'touchstart'].forEach(evt => {
+    element.addEventListener(evt, toggleSelection, { passive: false });
   });
 
-  // PCのクリック対応
-  element.addEventListener('click', (e) => {
-    e.preventDefault();
-    toggleSelection();
-  });
+  if (isWrapper) {
+    // wrapperにだけドラッグ処理をつける
+    element.addEventListener('mousedown', startDrag);
+    element.addEventListener('touchstart', startDrag, { passive: false });
+  } else {
+    // .racer に touchstart が入ってもグループに渡すように stopPropagation
+    element.addEventListener('touchstart', (e) => {
+      const parent = element.closest('.wrapper');
+      if (parent) {
+        e.stopPropagation();
+        e.preventDefault(); // グループにドラッグを委ねる
+      }
+    }, { passive: false });
 
-  // ドラッグ対応（既存のままでOK）
-  element.addEventListener('mousedown', startDrag);
-  element.addEventListener('touchstart', startDrag, { passive: false });
+    element.addEventListener('mousedown', startDrag);
+  }
 }
+
 
 
 
