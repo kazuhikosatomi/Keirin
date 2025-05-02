@@ -52,7 +52,7 @@ h1 {
   margin-top: 20px;
 }
 
-#startBtn:hover, #groupBtn:hover, #unsortBtn:hover, #saveBtn:hover, #loadBtn:hover, #toggleNamesBtn, toggleGroupNamesBtn:hover {
+#startBtn:hover, #groupBtn:hover, #unsortBtn:hover, #saveBtn:hover, #loadBtn:hover, #toggleNamesBtn, #toggleGroupNamesBtn:hover {
   background-color: #45a049;
 }
 
