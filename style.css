@@ -42,7 +42,7 @@ h1 {
 }
 
 /* 修正後：全ボタンに共通スタイルを適用 */
-#startBtn, #groupBtn, #unsortBtn, #saveBtn, #loadBtn, #toggleNamesBtn{
+#startBtn, #groupBtn, #unsortBtn, #saveBtn, #loadBtn, #toggleNamesBtn, #toggleGroupNamesBtn{
   padding: 10px 20px;
   font-size: 1.2em;
   background-color: #4CAF50;
@@ -52,7 +52,7 @@ h1 {
   margin-top: 20px;
 }
 
-#startBtn:hover, #groupBtn:hover, #unsortBtn:hover, #saveBtn:hover, #loadBtn:hover, #toggleNamesBtn:hover {
+#startBtn:hover, #groupBtn:hover, #unsortBtn:hover, #saveBtn:hover, #loadBtn:hover, #toggleNamesBtn, toggleGroupNamesBtn:hover {
   background-color: #45a049;
 }
 
@@ -78,6 +78,9 @@ h1 {
 }
 .name {
   display: block; /* 初期状態では選手名を表示 */
+}
+.group-label.hidden {
+  display: none;
 }
 
 

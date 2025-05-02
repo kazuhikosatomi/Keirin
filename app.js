@@ -356,3 +356,13 @@ document.getElementById('toggleNamesBtn').addEventListener('click', () => {
     nameElement.style.display = (nameElement.style.display === 'none') ? 'block' : 'none';
   });
 });
+let groupNamesVisible = true;
+
+document.getElementById('toggleGroupNamesBtn').addEventListener('click', () => {
+  groupNamesVisible = !groupNamesVisible;
+
+  const labels = document.querySelectorAll('.group-label');
+  labels.forEach(label => {
+    label.classList.toggle('hidden', !groupNamesVisible);
+  });
+});
