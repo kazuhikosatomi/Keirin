@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ff0000" />
+  <title>競輪部 展開予想ボード</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/keirin-icon-192x192.png">
+</head>
+<body>
+  <h1>競輪部 展開予想ボード</h1>
+
+  <select id="playerCount">
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9" selected>9</option>
+  </select>
+  <label for="playerCount">車立</label>
+
+  <button id="startBtn">スタート</button>
+  <button id="groupBtn">ライン形成</button>
+  <button id="unsortBtn">ライン解除</button>
+  <button id="saveBtn">保存</button>
+  <button id="loadBtn">復元</button>
+  <button id="toggleNamesBtn">選手名の表示/非表示</button>
+
+  <div id="board" class="board"></div>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('Service Worker registered:', reg))
+          .catch(err => console.log('Service Worker registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>

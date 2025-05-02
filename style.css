@@ -1,0 +1,88 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+#board {
+  position: relative;
+  width: 1000px;
+  height: 400px;
+  margin: 20px auto;
+  background-color: #f0f0f0;
+  border: 2px solid #000;
+}
+
+.racer {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background-color: #ffcc00;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 60px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.racer.selected {
+  background-color: red;
+}
+
+.selected {
+  border: 3px solid red;
+}
+
+.group {
+  position: absolute; /* グループも絶対位置 */
+}
+
+/* 修正後：全ボタンに共通スタイルを適用 */
+#startBtn, #groupBtn, #unsortBtn, #saveBtn, #loadBtn, #toggleNamesBtn{
+  padding: 10px 20px;
+  font-size: 1.2em;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#startBtn:hover, #groupBtn:hover, #unsortBtn:hover, #saveBtn:hover, #loadBtn:hover, #toggleNamesBtn:hover {
+  background-color: #45a049;
+}
+
+.racer-number {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.racer .name {
+  margin-top: 2px;
+  font-size: 16px;
+  line-height: 1;
+}
+#playerCount {
+  font-size: 1.5em;
+  padding: 10px;
+  width: 60px;
+  text-align: center;
+  border: 2px solid #000;
+  border-radius: 5px;
+  margin-top: 1px;
+}
+.name {
+  display: block; /* 初期状態では選手名を表示 */
+}
+
+
+/* スマホ・タブレット向け調整（必要に応じて） */
+@media (max-width: 768px) {
+  .racer-number {
+    font-size: 24px;
+  }
+}
