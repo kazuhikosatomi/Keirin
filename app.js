@@ -138,7 +138,7 @@ document.getElementById('unsortBtn').addEventListener('click', (event) => {
 });
 
 function setRacerListeners(element) {
-  element.addEventListener('click', (e) => {
+  const toggleSelection = (e) => {
     e.stopPropagation();
     element.classList.toggle('selected');
 
@@ -158,11 +158,18 @@ function setRacerListeners(element) {
         element.style.zIndex = 'auto';
       }
     }
+  };
+
+  // PCのクリックとタッチ対応を両方まとめてバインド
+  ['click', 'touchstart'].forEach(evt => {
+    element.addEventListener(evt, toggleSelection, { passive: false });
   });
 
+  // ドラッグも引き続き対応
   element.addEventListener('mousedown', startDrag);
-  element.addEventListener('touchstart', startDrag, { passive: false }); // タッチ対応追加
+  element.addEventListener('touchstart', startDrag, { passive: false });
 }
+
 
 function startDrag(e) {
   e.preventDefault();
