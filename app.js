@@ -86,18 +86,25 @@ document.getElementById('groupBtn').addEventListener('click', () => {
 
   const sorted = Array.from(selected).sort((a, b) => parseInt(a.style.left) - parseInt(b.style.left));
   sorted.forEach((racer, index) => {
-    group.appendChild(racer);
-    racer.style.left = `${index * 60}px`;
-    racer.style.top = `0px`;
-    racer.classList.remove('selected');
-    racer.style.transform = 'scale(1)';
-    racer.style.zIndex = 'auto';
-    racer.style.border = '';
+    const newRacer = racer.cloneNode(true); // イベントなし複製
+    newRacer.style.position = 'absolute';
+    newRacer.style.left = `${index * 60}px`;
+    newRacer.style.top = `0px`;
+    newRacer.style.transform = 'scale(1)';
+    newRacer.style.zIndex = 'auto';
+    newRacer.classList.remove('selected');
+    newRacer.style.border = '';
+    group.appendChild(newRacer);
+
+    racer.remove(); // 元の選手を削除
   });
 
-  setRacerListeners(wrapper);
+  setRacerListeners(wrapper); // グループをドラッグ可能に
   groups.push(wrapper);
 });
+
+
+
 
 document.getElementById('unsortBtn').addEventListener('click', (event) => {
   const allWrappers = document.querySelectorAll('.wrapper');
