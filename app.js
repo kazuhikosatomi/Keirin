@@ -216,18 +216,38 @@ function setRacerListeners(element) {
 
 
 function startDrag(e) {
-  current = e.currentTarget;
-  offsetX = e.clientX - current.offsetLeft;
-  offsetY = e.clientY - current.offsetTop;
+  // タッチイベントの場合、タッチ位置を取得
+  if (e.type === 'touchstart') {
+    current = e.currentTarget;
+    offsetX = e.touches[0].clientX - current.offsetLeft;
+    offsetY = e.touches[0].clientY - current.offsetTop;
+  } else {
+    current = e.currentTarget;
+    offsetX = e.clientX - current.offsetLeft;
+    offsetY = e.clientY - current.offsetTop;
+  }
 
   document.addEventListener('mousemove', drag);
   document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchmove', drag, { passive: false });
+  document.addEventListener('touchend', endDrag);
 }
 
 function drag(e) {
   if (current) {
-    current.style.left = `${e.clientX - offsetX}px`;
-    current.style.top = `${e.clientY - offsetY}px`;
+    let clientX, clientY;
+
+    // タッチイベントの場合、タッチ位置を取得
+    if (e.type === 'touchmove') {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    current.style.left = `${clientX - offsetX}px`;
+    current.style.top = `${clientY - offsetY}px`;
   }
 }
 
@@ -235,7 +255,10 @@ function endDrag() {
   current = null;
   document.removeEventListener('mousemove', drag);
   document.removeEventListener('mouseup', endDrag);
+  document.removeEventListener('touchmove', drag);
+  document.removeEventListener('touchend', endDrag);
 }
+
 document.getElementById('saveBtn').addEventListener('click', () => {
   const racers = Array.from(document.querySelectorAll('.racer')).map(racer => {
     const number = parseInt(racer.querySelector('.racer-number').textContent);
