@@ -170,7 +170,31 @@ function setRacerListeners(element) {
 
   if (isWrapper) {
     element.addEventListener('mousedown', startDrag);
-    element.addEventListener('touchstart', startDrag, { passive: false });
+  
+    // スマホで長押しでのみドラッグ許可
+    let longPressTimer = null;
+    let isDragging = false;  // ドラッグ状態のフラグ
+    
+    element.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      isDragging = false;  // 長押し前にドラッグ状態をリセット
+      longPressTimer = setTimeout(() => {
+        isDragging = true;  // 長押しが完了したらドラッグ可能に
+        startDrag(e); // 長押しされたら startDrag を実行
+      }, 300);
+    }, { passive: false });
+
+    element.addEventListener('touchend', () => {
+      clearTimeout(longPressTimer);
+      if (isDragging) {
+        // 長押し後のドラッグ終了処理
+        endDrag();
+      }
+    });
+
+    element.addEventListener('touchmove', () => {
+      clearTimeout(longPressTimer);  // タッチ移動でタイマーをリセット
+    });
   } else {
     element.addEventListener('touchstart', (e) => {
       const parent = element.closest('.wrapper');
@@ -179,10 +203,12 @@ function setRacerListeners(element) {
         e.preventDefault();
       }
     }, { passive: false });
-
+  
     element.addEventListener('mousedown', startDrag);
   }
 }
+
+  
 
 
 
