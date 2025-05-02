@@ -25,15 +25,23 @@ document.getElementById('startBtn').addEventListener('click', () => {
     racer.style.backgroundColor = racerColors[i - 1];
     const numberColor = (i === 2) ? 'white' : 'black';
     racer.innerHTML = `
-      <span class="racer-number" style="color: ${numberColor};">${i}</span><br>
-      <span class="name" contenteditable="true" style="outline: none;">未設定</span>
-    `;
+    <span class="racer-number" style="color: ${numberColor};">${i}</span><br>
+    <span class="name" contenteditable="true" style="outline: none;">未設定</span>
+  `;
+  
+
+  
+    
+
+
     board.appendChild(racer);
     setRacerListeners(racer);
   }
 
   alert(`${racerCount}人の選手が追加されました！`);
 });
+
+
 
 document.getElementById('groupBtn').addEventListener('click', () => {
   const selected = document.querySelectorAll('.racer.selected');
@@ -42,7 +50,9 @@ document.getElementById('groupBtn').addEventListener('click', () => {
   const board = document.getElementById('board');
   const lineName = prompt("このラインの名前を入力してください", "ラインA");
 
-  let minLeft = Infinity, minTop = Infinity;
+  // ★ グループ全体の左上の位置を計算
+  let minLeft = Infinity;
+  let minTop = Infinity;
   selected.forEach(racer => {
     const left = parseInt(racer.style.left);
     const top = parseInt(racer.style.top);
@@ -50,6 +60,7 @@ document.getElementById('groupBtn').addEventListener('click', () => {
     if (top < minTop) minTop = top;
   });
 
+  // wrapper の作成（←位置を minLeft/minTop に設定）
   const wrapper = document.createElement('div');
   wrapper.classList.add('wrapper');
   wrapper.style.position = 'absolute';
@@ -57,9 +68,10 @@ document.getElementById('groupBtn').addEventListener('click', () => {
   wrapper.style.top = `${minTop}px`;
   wrapper.style.display = 'flex';
   wrapper.style.flexDirection = 'column';
-  wrapper.style.alignItems = 'flex-start';
+  wrapper.style.alignItems = 'flex-start'; // ←重要（ラベル左寄せ）
   wrapper.style.border = 'none';
 
+  // ラベル作成（そのままでOK）
   const label = document.createElement('div');
   label.contentEditable = true;
   label.textContent = lineName || "無名ライン";
@@ -68,11 +80,13 @@ document.getElementById('groupBtn').addEventListener('click', () => {
   label.style.fontWeight = 'bold';
   label.style.marginBottom = '4px';
   label.style.padding = '2px 4px';
-  label.style.backgroundColor = 'transparent';
-  label.style.border = 'none';
+  label.style.backgroundColor = 'transparent'; // 背景を透明に
+  label.style.border = 'none';                // 枠線をなくす
   label.style.userSelect = 'text';
   label.style.outline = 'none';
+  
 
+  // グループ div
   const group = document.createElement('div');
   group.classList.add('group');
   group.style.position = 'relative';
@@ -84,40 +98,42 @@ document.getElementById('groupBtn').addEventListener('click', () => {
   wrapper.appendChild(group);
   board.appendChild(wrapper);
 
-  const sorted = Array.from(selected).sort((a, b) => parseInt(a.style.left) - parseInt(b.style.left));
-  sorted.forEach((racer, index) => {
-    const newRacer = racer.cloneNode(true); // イベントなし複製
-    newRacer.style.position = 'absolute';
-    newRacer.style.left = `${index * 60}px`;
-    newRacer.style.top = `0px`;
-    newRacer.style.transform = 'scale(1)';
-    newRacer.style.zIndex = 'auto';
-    newRacer.classList.remove('selected');
-    newRacer.style.border = '';
-    group.appendChild(newRacer);
+// 1. 選手を left 順に並び替え
+const sorted = Array.from(selected).sort((a, b) => {
+  return parseInt(a.style.left) - parseInt(b.style.left);
+});
 
-    racer.remove(); // 元の選手を削除
-  });
+// 2. 間隔を詰めて配置（例：間隔50px）
+sorted.forEach((racer, index) => {
+  group.appendChild(racer);
 
-  setRacerListeners(wrapper); // グループをドラッグ可能に
+  racer.style.left = `${index * 60}px`;
+  racer.style.top = `0px`;
+
+  racer.classList.remove('selected');
+  racer.style.transform = 'scale(1)';
+  racer.style.zIndex = 'auto';
+  racer.style.border = '';
+});
+  
+
+  setRacerListeners(wrapper);
   groups.push(wrapper);
 });
 
 
-
-
-let selectedDisabled = false; // 選択機能を無効化するフラグ
-
 document.getElementById('unsortBtn').addEventListener('click', (event) => {
-  selectedDisabled = true; // 「バラす」後は選択を無効化
-
   const allWrappers = document.querySelectorAll('.wrapper');
+
   allWrappers.forEach(wrapper => {
     const group = wrapper.querySelector('.group');
     if (!group) return;
 
     const racersInGroup = group.querySelectorAll('.racer');
+
+    // Shiftキーが押されている場合は、selectedなグループだけ解除
     const shouldUnsort = !event.shiftKey || Array.from(racersInGroup).some(r => r.classList.contains('selected'));
+
     if (!shouldUnsort) return;
 
     const wrapperLeft = parseInt(wrapper.style.left);
@@ -126,17 +142,20 @@ document.getElementById('unsortBtn').addEventListener('click', (event) => {
     racersInGroup.forEach(racer => {
       const board = document.getElementById('board');
       board.appendChild(racer);
+
       const racerLeft = parseInt(racer.style.left) + wrapperLeft;
       const racerTop = parseInt(racer.style.top) + wrapperTop;
       racer.style.left = `${racerLeft}px`;
       racer.style.top = `${racerTop}px`;
-      setRacerListeners(racer); // 個別の選手にリスナーをセット
+
+      setRacerListeners(racer);
       racer.style.border = '';
     });
 
     wrapper.remove();
   });
 
+  // すべての選手の選択を解除
   const allRacers = document.querySelectorAll('.racer');
   allRacers.forEach(racer => {
     racer.classList.remove('selected');
@@ -144,134 +163,73 @@ document.getElementById('unsortBtn').addEventListener('click', (event) => {
     racer.style.zIndex = 'auto';
   });
 
-  allWrappers.forEach(wrapper => wrapper.classList.remove('selected'));
+  // すべてのグループの選択も解除
+  allWrappers.forEach(wrapper => {
+    wrapper.classList.remove('selected');
+  });
 });
 
 
 
 
 function setRacerListeners(element) {
-  const isWrapper = element.classList.contains('wrapper');
-
-  if ('ontouchstart' in window) {
-    // タッチイベント
-    element.addEventListener('touchstart', (e) => {
-      e.preventDefault(); // スクロールや選択の動作を防ぐ
-      if (isWrapper) {
-        startDrag(e);
+  element.addEventListener('click', (e) => {
+    e.stopPropagation();
+    element.classList.toggle('selected');
+  
+    const label = element.querySelector('.group-label');
+    if (label) {
+      // ここでグループ名のラベルが選択されないようにする
+      if (element.classList.contains('selected')) {
+        label.style.border = 'none';  // 枠線なし
+      } else {
+        label.style.border = 'none';  // 枠線なし
       }
-    }, { passive: false });
-
-    element.addEventListener('touchmove', (e) => {
-      e.preventDefault(); // 重要: ドラッグ中は選択やスクロールを防ぐ
-      if (current) drag(e);
-    }, { passive: false });
-
-    element.addEventListener('touchend', endDrag);
-  } else {
-    // マウスイベント
-    element.addEventListener('mousedown', (e) => {
-      e.preventDefault(); // 初回の選択やスクロールを防ぐ
-      startDrag(e);
-    });
-
-    element.addEventListener('mousemove', (e) => {
-      if (current) drag(e);
-    });
-    element.addEventListener('mouseup', endDrag);
-  }
-}
-
-function startDrag(e) {
-  e.preventDefault(); // これで選択やスクロール動作を無効化
-
-  const isTouch = e.type === 'touchstart';
-  const clientX = isTouch ? e.touches[0].clientX : e.clientX;
-  const clientY = isTouch ? e.touches[0].clientY : e.clientY;
-
-  current = e.currentTarget;
-  offsetX = clientX - current.offsetLeft;
-  offsetY = clientY - current.offsetTop;
-
-  if (isTouch) {
-    document.addEventListener('touchmove', drag, { passive: false });
-    document.addEventListener('touchend', endDrag);
-  } else {
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('mouseup', endDrag);
-  }
-}
-
-function drag(e) {
-  if (!current) return;
-  e.preventDefault();
-
-  const isTouch = e.type === 'touchmove';
-  const clientX = isTouch ? e.touches[0].clientX : e.clientX;
-  const clientY = isTouch ? e.touches[0].clientY : e.clientY;
-
-  current.style.left = `${clientX - offsetX}px`;
-  current.style.top = `${clientY - offsetY}px`;
-}
-
-function endDrag() {
-  current = null;
-  document.removeEventListener('mousemove', drag);
-  document.removeEventListener('mouseup', endDrag);
-  document.removeEventListener('touchmove', drag);
-  document.removeEventListener('touchend', endDrag);
-}
-
-
-
-
-
+    }
+  
+    // wrapper, group, racer すべて枠線なしに統一
+    element.style.border = 'none';
+    const group = element.querySelector('.group');
+    if (group) group.style.border = 'none';
+  
+    // ★ 選手選択時の拡大エフェクト（racerのみ対象）
+    if (element.classList.contains('racer')) {
+      if (element.classList.contains('selected')) {
+        element.style.transform = 'scale(1.2)';
+        element.style.zIndex = '1000';
+      } else {
+        element.style.transform = 'scale(1)';
+        element.style.zIndex = 'auto';
+      }
+    }
+  });
   
 
-
-
+  element.addEventListener('mousedown', startDrag);
+}
 
 
 function startDrag(e) {
-  e.preventDefault();
-
-  const isTouch = e.type === 'touchstart';
-  const clientX = isTouch ? e.touches[0].clientX : e.clientX;
-  const clientY = isTouch ? e.touches[0].clientY : e.clientY;
-
   current = e.currentTarget;
-  offsetX = clientX - current.offsetLeft;
-  offsetY = clientY - current.offsetTop;
+  offsetX = e.clientX - current.offsetLeft;
+  offsetY = e.clientY - current.offsetTop;
 
-  if (isTouch) {
-    document.addEventListener('touchmove', drag, { passive: false });
-    document.addEventListener('touchend', endDrag);
-  } else {
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('mouseup', endDrag);
-  }
+  document.addEventListener('mousemove', drag);
+  document.addEventListener('mouseup', endDrag);
 }
 
 function drag(e) {
-  if (!current) return;
-  e.preventDefault();
-
-  const isTouch = e.type === 'touchmove';
-  const clientX = isTouch ? e.touches[0].clientX : e.clientX;
-  const clientY = isTouch ? e.touches[0].clientY : e.clientY;
-
-  current.style.left = `${clientX - offsetX}px`;
-  current.style.top = `${clientY - offsetY}px`;
+  if (current) {
+    current.style.left = `${e.clientX - offsetX}px`;
+    current.style.top = `${e.clientY - offsetY}px`;
+  }
 }
 
 function endDrag() {
   current = null;
   document.removeEventListener('mousemove', drag);
   document.removeEventListener('mouseup', endDrag);
-  document.removeEventListener('touchmove', drag);
-  document.removeEventListener('touchend', endDrag);
 }
-
 document.getElementById('saveBtn').addEventListener('click', () => {
   const racers = Array.from(document.querySelectorAll('.racer')).map(racer => {
     const number = parseInt(racer.querySelector('.racer-number').textContent);
@@ -299,8 +257,10 @@ document.getElementById('saveBtn').addEventListener('click', () => {
 
   const data = { racers, groups };
   localStorage.setItem('racerBoardData', JSON.stringify(data));
+
   alert('保存しました！');
 });
+
 
 document.getElementById('loadBtn').addEventListener('click', () => {
   const dataStr = localStorage.getItem('racerBoardData');
@@ -311,8 +271,9 @@ document.getElementById('loadBtn').addEventListener('click', () => {
 
   const data = JSON.parse(dataStr);
   const board = document.getElementById('board');
-  board.innerHTML = '';
+  board.innerHTML = ''; // 既存をクリア
 
+  // グループの選手番号を先に集める
   const groupedNumbers = new Set();
   data.groups.forEach(group => {
     group.members.forEach(member => {
@@ -320,8 +281,9 @@ document.getElementById('loadBtn').addEventListener('click', () => {
     });
   });
 
+  // グループ外の選手だけを表示
   data.racers.forEach(racer => {
-    if (groupedNumbers.has(racer.number)) return;
+    if (groupedNumbers.has(racer.number)) return; // グループに含まれる選手はスキップ
 
     const el = document.createElement('div');
     el.classList.add('racer');
@@ -338,6 +300,7 @@ document.getElementById('loadBtn').addEventListener('click', () => {
     setRacerListeners(el);
   });
 
+  // グループの復元
   data.groups.forEach(group => {
     const wrapper = document.createElement('div');
     wrapper.classList.add('wrapper');
@@ -357,7 +320,7 @@ document.getElementById('loadBtn').addEventListener('click', () => {
     label.style.marginBottom = '4px';
     label.style.padding = '2px 4px';
     label.style.backgroundColor = 'transparent';
-    label.style.border = 'none';
+    label.style.border = 'none';    
     label.style.userSelect = 'text';
     label.style.outline = 'none';
 
@@ -393,20 +356,14 @@ document.getElementById('loadBtn').addEventListener('click', () => {
 
   alert('復元しました！');
 });
-
 document.getElementById('toggleNamesBtn').addEventListener('click', () => {
   const allNames = document.querySelectorAll('.name');
   allNames.forEach(nameElement => {
-    nameElement.style.display = (nameElement.style.display === 'none') ? 'block' : 'none';
+    if (nameElement.style.display === 'none') {
+      nameElement.style.display = 'block';
+    } else {
+      nameElement.style.display = 'none';
+    }
   });
 });
-let groupNamesVisible = true;
 
-document.getElementById('toggleGroupNamesBtn').addEventListener('click', () => {
-  groupNamesVisible = !groupNamesVisible;
-
-  const labels = document.querySelectorAll('.group-label');
-  labels.forEach(label => {
-    label.classList.toggle('hidden', !groupNamesVisible);
-  });
-});
