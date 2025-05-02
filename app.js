@@ -173,18 +173,12 @@ document.getElementById('unsortBtn').addEventListener('click', (event) => {
 
 
 function setRacerListeners(element) {
+  const isWrapper = element.classList.contains('wrapper');
+
   const toggleSelection = (e) => {
     e.stopPropagation();
-    element.classList.toggle('selected');
-
-    const label = element.querySelector('.group-label');
-    if (label) label.style.border = 'none';
-
-    element.style.border = 'none';
-    const group = element.querySelector('.group');
-    if (group) group.style.border = 'none';
-
-    if (element.classList.contains('racer')) {
+    if (!isWrapper) {
+      element.classList.toggle('selected');
       if (element.classList.contains('selected')) {
         element.style.transform = 'scale(1.2)';
         element.style.zIndex = '1000';
@@ -195,15 +189,29 @@ function setRacerListeners(element) {
     }
   };
 
-  // PCのクリックとタッチ対応を両方まとめてバインド
+  // click / touchstart で選択処理
   ['click', 'touchstart'].forEach(evt => {
     element.addEventListener(evt, toggleSelection, { passive: false });
   });
 
-  // ドラッグも引き続き対応
-  element.addEventListener('mousedown', startDrag);
-  element.addEventListener('touchstart', startDrag, { passive: false });
+  if (isWrapper) {
+    // wrapperにだけドラッグ処理をつける
+    element.addEventListener('mousedown', startDrag);
+    element.addEventListener('touchstart', startDrag, { passive: false });
+  } else {
+    // .racer に touchstart が入ってもグループに渡すように stopPropagation
+    element.addEventListener('touchstart', (e) => {
+      const parent = element.closest('.wrapper');
+      if (parent) {
+        e.stopPropagation();
+        e.preventDefault(); // グループにドラッグを委ねる
+      }
+    }, { passive: false });
+
+    element.addEventListener('mousedown', startDrag);
+  }
 }
+
 
 
 function startDrag(e) {
