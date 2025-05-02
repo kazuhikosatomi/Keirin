@@ -170,13 +170,14 @@ function setRacerListeners(element) {
 
   if (isWrapper) {
     element.addEventListener('mousedown', startDrag);
-  
+
     // スマホで長押しでのみドラッグ許可
     let longPressTimer = null;
     let isDragging = false;  // ドラッグ状態のフラグ
-    
+
+    // touchstart イベントでコピー機能を防止
     element.addEventListener('touchstart', (e) => {
-      e.preventDefault();
+      e.preventDefault();  // コピーや選択を防ぐ
       isDragging = false;  // 長押し前にドラッグ状態をリセット
       longPressTimer = setTimeout(() => {
         isDragging = true;  // 長押しが完了したらドラッグ可能に
@@ -203,10 +204,11 @@ function setRacerListeners(element) {
         e.preventDefault();
       }
     }, { passive: false });
-  
+
     element.addEventListener('mousedown', startDrag);
   }
 }
+
 
   
 
