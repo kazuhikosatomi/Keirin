@@ -153,7 +153,6 @@ document.getElementById('unsortBtn').addEventListener('click', (event) => {
 function setRacerListeners(element) {
   const isWrapper = element.classList.contains('wrapper');
 
-  // タッチデバイスかどうかを判定してイベントを分ける
   if ('ontouchstart' in window) {
     // タッチイベント
     element.addEventListener('touchstart', (e) => {
@@ -164,8 +163,8 @@ function setRacerListeners(element) {
     }, { passive: false });
 
     element.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-      drag(e); // ドラッグの移動処理
+      e.preventDefault(); // 重要: ドラッグ中は選択やスクロールを防ぐ
+      if (current) drag(e);
     }, { passive: false });
 
     element.addEventListener('touchend', endDrag);
@@ -176,13 +175,16 @@ function setRacerListeners(element) {
       startDrag(e);
     });
 
-    element.addEventListener('mousemove', drag);
+    element.addEventListener('mousemove', (e) => {
+      if (current) drag(e);
+    });
     element.addEventListener('mouseup', endDrag);
   }
 }
 
 function startDrag(e) {
-  e.preventDefault(); // 重要: これで選択やスクロール動作を無効化
+  e.preventDefault(); // これで選択やスクロール動作を無効化
+
   const isTouch = e.type === 'touchstart';
   const clientX = isTouch ? e.touches[0].clientX : e.clientX;
   const clientY = isTouch ? e.touches[0].clientY : e.clientY;
@@ -202,7 +204,7 @@ function startDrag(e) {
 
 function drag(e) {
   if (!current) return;
-  e.preventDefault(); // 重要: ドラッグ中に他の動作を防ぐ
+  e.preventDefault();
 
   const isTouch = e.type === 'touchmove';
   const clientX = isTouch ? e.touches[0].clientX : e.clientX;
