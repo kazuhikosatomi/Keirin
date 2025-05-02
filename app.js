@@ -189,28 +189,29 @@ function setRacerListeners(element) {
     }
   };
 
-  // click / touchstart で選択処理
-  ['click', 'touchstart'].forEach(evt => {
-    element.addEventListener(evt, toggleSelection, { passive: false });
-  });
+  // イベントを一度だけ登録：モバイルは touchstart、PC は click
+  if ('ontouchstart' in window) {
+    element.addEventListener('touchstart', toggleSelection, { passive: false });
+  } else {
+    element.addEventListener('click', toggleSelection);
+  }
 
   if (isWrapper) {
-    // wrapperにだけドラッグ処理をつける
     element.addEventListener('mousedown', startDrag);
     element.addEventListener('touchstart', startDrag, { passive: false });
   } else {
-    // .racer に touchstart が入ってもグループに渡すように stopPropagation
     element.addEventListener('touchstart', (e) => {
       const parent = element.closest('.wrapper');
       if (parent) {
         e.stopPropagation();
-        e.preventDefault(); // グループにドラッグを委ねる
+        e.preventDefault();
       }
     }, { passive: false });
 
     element.addEventListener('mousedown', startDrag);
   }
 }
+
 
 
 
