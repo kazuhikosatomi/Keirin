@@ -173,26 +173,17 @@ document.getElementById('unsortBtn').addEventListener('click', (event) => {
 
 
 function setRacerListeners(element) {
-  element.addEventListener('click', (e) => {
+  const toggleSelection = (e) => {
     e.stopPropagation();
     element.classList.toggle('selected');
-  
+
     const label = element.querySelector('.group-label');
-    if (label) {
-      // ここでグループ名のラベルが選択されないようにする
-      if (element.classList.contains('selected')) {
-        label.style.border = 'none';  // 枠線なし
-      } else {
-        label.style.border = 'none';  // 枠線なし
-      }
-    }
-  
-    // wrapper, group, racer すべて枠線なしに統一
+    if (label) label.style.border = 'none';
+
     element.style.border = 'none';
     const group = element.querySelector('.group');
     if (group) group.style.border = 'none';
-  
-    // ★ 選手選択時の拡大エフェクト（racerのみ対象）
+
     if (element.classList.contains('racer')) {
       if (element.classList.contains('selected')) {
         element.style.transform = 'scale(1.2)';
@@ -202,10 +193,16 @@ function setRacerListeners(element) {
         element.style.zIndex = 'auto';
       }
     }
-  });
-  
+  };
 
+  // PCのクリックとタッチ対応を両方まとめてバインド
+  ['click', 'touchstart'].forEach(evt => {
+    element.addEventListener(evt, toggleSelection, { passive: false });
+  });
+
+  // ドラッグも引き続き対応
   element.addEventListener('mousedown', startDrag);
+  element.addEventListener('touchstart', startDrag, { passive: false });
 }
 
 
@@ -364,6 +361,16 @@ document.getElementById('toggleNamesBtn').addEventListener('click', () => {
     } else {
       nameElement.style.display = 'none';
     }
+  });
+});
+let groupNamesVisible = true;
+
+document.getElementById('toggleGroupNamesBtn').addEventListener('click', () => {
+  groupNamesVisible = !groupNamesVisible;
+
+  const labels = document.querySelectorAll('.group-label');
+  labels.forEach(label => {
+    label.classList.toggle('hidden', !groupNamesVisible);
   });
 });
 
