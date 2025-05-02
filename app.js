@@ -138,8 +138,10 @@ document.getElementById('unsortBtn').addEventListener('click', (event) => {
 });
 
 function setRacerListeners(element) {
-  const toggleSelection = (e) => {
-    e.stopPropagation();
+  let touchStartTime = 0;
+
+  // 選択トグル処理（click or 短いタップ）
+  const toggleSelection = () => {
     element.classList.toggle('selected');
 
     const label = element.querySelector('.group-label');
@@ -160,15 +162,30 @@ function setRacerListeners(element) {
     }
   };
 
-  // PCのクリックとタッチ対応を両方まとめてバインド
-  ['click', 'touchstart'].forEach(evt => {
-    element.addEventListener(evt, toggleSelection, { passive: false });
+  // タッチ用：短いタップで選択、長押しはドラッグに任せる
+  element.addEventListener('touchstart', (e) => {
+    touchStartTime = Date.now();
+  }, { passive: true });
+
+  element.addEventListener('touchend', (e) => {
+    const duration = Date.now() - touchStartTime;
+    if (duration < 200) {  // 200ms未満の短いタップ
+      e.preventDefault();
+      toggleSelection();
+    }
   });
 
-  // ドラッグも引き続き対応
+  // PCのクリック対応
+  element.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleSelection();
+  });
+
+  // ドラッグ対応（既存のままでOK）
   element.addEventListener('mousedown', startDrag);
   element.addEventListener('touchstart', startDrag, { passive: false });
 }
+
 
 
 function startDrag(e) {
