@@ -152,7 +152,7 @@ function setRacerListeners(element) {
 
   const toggleSelection = (e) => {
     e.stopPropagation();
-    if (!isWrapper && !selectedDisabled) { // 選択無効化フラグを追加
+    if (!isWrapper) {
       element.classList.toggle('selected');
       if (element.classList.contains('selected')) {
         element.style.transform = 'scale(1.2)';
@@ -173,6 +173,29 @@ function setRacerListeners(element) {
 
   if (isWrapper) {
     element.addEventListener('mousedown', startDrag);
+
+    // スマホで長押しでのみドラッグ許可
+    let longPressTimer = null;
+    element.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      longPressTimer = setTimeout(() => {
+        startDrag(e); // 長押しされたら startDrag を実行
+      }, 300);
+    }, { passive: false });
+
+    element.addEventListener('touchend', () => {
+      clearTimeout(longPressTimer);
+    });
+    element.addEventListener('touchmove', () => {
+      clearTimeout(longPressTimer);
+    });
+
+    // 選手名の編集を可能にするため、タッチ時の処理を調整
+    element.querySelectorAll('.name').forEach(name => {
+      name.addEventListener('touchstart', (e) => {
+        e.stopPropagation();  // ここでタッチイベントを無効化しないように調整
+      });
+    });
   } else {
     element.addEventListener('touchstart', (e) => {
       const parent = element.closest('.wrapper');
@@ -186,10 +209,8 @@ function setRacerListeners(element) {
   }
 }
 
-// 「バラす」後に選択を再度有効化するには以下の関数を使います
-function enableSelection() {
-  selectedDisabled = false;
-}
+// ここではドラッグ関連の処理が依然として有効です
+
 
 
   
