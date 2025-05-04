@@ -4,10 +4,11 @@ const ungroupedArea = document.getElementById("ungrouped");
 const groupsContainer = document.getElementById("groups");
 
 let players = Array.from({ length: 9 }, (_, i) => ({
-  id: i + 1,
-  selected: false,
-  groupId: null,
-}));
+    id: i + 1,
+    selected: false,
+    groupId: null,
+    name: "" // ← 選手名（空欄スタート）
+  }));
 
 let groupNames = {}; // { groupId: "ラインA", ... }
 
@@ -62,27 +63,42 @@ function renderPlayers() {
 }
 
 function createPlayerElement(player) {
-  const div = document.createElement("div");
-  div.className = `player player-${player.id}`;
-  div.textContent = player.id;
-
-  if (player.selected) div.classList.add("selected");
-
-  // タップ選択：PC用
-  div.addEventListener("click", () => {
-    player.selected = !player.selected;
-    renderPlayers();
-  });
-
-  // タップ選択：iPad用
-  div.addEventListener("touchend", (e) => {
-    e.preventDefault();
-    player.selected = !player.selected;
-    renderPlayers();
-  }, { passive: false });
-
-  return div;
-}
+    const wrapper = document.createElement("div");
+    wrapper.className = "player-wrapper";
+  
+    const div = document.createElement("div");
+    div.className = `player player-${player.id}`;
+    div.textContent = player.id;
+  
+    if (player.selected) div.classList.add("selected");
+  
+    // 選択処理（PC・タッチ共通）
+    div.addEventListener("click", () => {
+      player.selected = !player.selected;
+      renderPlayers();
+    });
+    div.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      player.selected = !player.selected;
+      renderPlayers();
+    }, { passive: false });
+  
+    // 選手名入力欄
+    const nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.value = player.name || "";
+    nameInput.placeholder = "名前";
+    nameInput.className = "name-input";
+    nameInput.addEventListener("input", () => {
+      player.name = nameInput.value;
+    });
+  
+    wrapper.appendChild(div);
+    wrapper.appendChild(nameInput);
+  
+    return wrapper;
+  }
+  
 
 function groupSelectedPlayers() {
   const groupId = Date.now();
