@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>9色 選手ライン形成</title>
+  <title>グループ名表示テスト</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>選手ライン形成（9色表示）v3</h1>
-  <div id="board" class="board"></div>
+  <h1>選手ライン形成（グループ名編集つき）v1</h1>
   <div id="controls">
     <button id="groupButton">ラインを作る</button>
     <button id="ungroupButton">バラす</button>
   </div>
-  
-  <script src="./app.js"></script>
+  <div id="boardContainer">
+    <div id="ungrouped" class="group-area"></div>
+    <div id="groups" class="groups"></div>
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>

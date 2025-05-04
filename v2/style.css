@@ -1,21 +1,62 @@
 body {
     font-family: sans-serif;
-    text-align: center;
     background-color: #f0f0f0;
+    text-align: center;
+    margin: 0;
+    padding: 0;
   }
   
-  .board {
+  h1 {
+    margin: 16px;
+  }
+  
+  #controls {
+    margin: 16px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    margin: 0 8px;
+    font-size: 16px;
+  }
+  
+  #boardContainer {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    background-color: #e0e0e0;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
     padding: 20px;
-    margin: 20px auto;
-    width: 90%;
-    max-width: 900px;
-    border: 2px solid #333;
-    min-height: 300px;
+    overflow-x: auto;
+    gap: 24px;
+  }
+  
+  .group-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 120px;
+  }
+  
+  .group input {
+    font-size: 14px;
+    padding: 4px 6px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background-color: transparent;
+    text-align: left;
+    margin-left: 4px;
+  }
+  
+  .player-row {
+    display: flex;
     gap: 10px;
   }
   
@@ -23,19 +64,17 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    margin: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
     font-size: 20px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     touch-action: none;
     user-select: none;
-    transition: all 0.2s ease;
   }
   
-  /* 選手の9色 */
+  /* 9色 */
   .player-1 { background-color: white; color: black; }
   .player-2 { background-color: black; }
   .player-3 { background-color: red; }
@@ -46,23 +85,7 @@ body {
   .player-8 { background-color: pink; color: black; }
   .player-9 { background-color: purple; }
   
-  /* 選択状態 */
   .player.selected {
     outline: 4px solid #007bff;
-  }
-  
-  /* グループ化状態 */
-  .player.grouped {
-    border: 3px dashed green;
-  }
-  
-  /* ボタン */
-  #controls {
-    margin: 20px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
   }
   

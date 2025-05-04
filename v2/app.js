@@ -1,6 +1,7 @@
 console.log("✅ app.js 読み込まれた！");
 
-const board = document.getElementById("board");
+const ungroupedArea = document.getElementById("ungrouped");
+const groupsContainer = document.getElementById("groups");
 
 let players = Array.from({ length: 9 }, (_, i) => ({
   id: i + 1,
@@ -8,81 +9,118 @@ let players = Array.from({ length: 9 }, (_, i) => ({
   groupId: null,
 }));
 
+let groupNames = {}; // { groupId: "ラインA", ... }
+
 function renderPlayers() {
-  board.innerHTML = "";
+  ungroupedArea.innerHTML = "";
+  groupsContainer.innerHTML = "";
 
-  players.forEach((player, index) => {
-    const div = document.createElement("div");
-    div.className = `player player-${player.id}`;
-    div.textContent = player.id;
+  // グループに所属していない選手
+  const ungroupedRow = document.createElement("div");
+  ungroupedRow.className = "player-row";
 
-    if (player.selected) div.classList.add("selected");
-    if (player.groupId !== null) div.classList.add("grouped");
+  players.filter(p => p.groupId === null).forEach(player => {
+    const div = createPlayerElement(player);
+    ungroupedRow.appendChild(div);
+  });
 
-// 選手のタップ選択を両対応（PCとタブレット）にする
-div.addEventListener("click", () => {
+  ungroupedArea.appendChild(ungroupedRow);
+
+  // グループごとに分けて表示
+  const groupedPlayers = players.filter(p => p.groupId !== null);
+  const groupMap = {};
+
+  groupedPlayers.forEach(p => {
+    if (!groupMap[p.groupId]) {
+      groupMap[p.groupId] = [];
+    }
+    groupMap[p.groupId].push(p);
+  });
+
+  Object.entries(groupMap).forEach(([groupId, groupPlayers]) => {
+    const groupDiv = document.createElement("div");
+    groupDiv.className = "group";
+
+    const input = document.createElement("input");
+    input.value = groupNames[groupId] || `グループ ${groupId}`;
+    input.addEventListener("input", () => {
+      groupNames[groupId] = input.value;
+    });
+    groupDiv.appendChild(input);
+
+    const row = document.createElement("div");
+    row.className = "player-row";
+
+    groupPlayers.forEach(p => {
+      const div = createPlayerElement(p);
+      row.appendChild(div);
+    });
+
+    groupDiv.appendChild(row);
+    groupsContainer.appendChild(groupDiv);
+  });
+}
+
+function createPlayerElement(player) {
+  const div = document.createElement("div");
+  div.className = `player player-${player.id}`;
+  div.textContent = player.id;
+
+  if (player.selected) div.classList.add("selected");
+
+  // タップ選択：PC用
+  div.addEventListener("click", () => {
     player.selected = !player.selected;
     renderPlayers();
   });
-  
-  // 追加：タッチ対応（iPad, iPhone）
+
+  // タップ選択：iPad用
   div.addEventListener("touchend", (e) => {
     e.preventDefault();
     player.selected = !player.selected;
     renderPlayers();
   }, { passive: false });
-  
 
-    board.appendChild(div);
-  });
+  return div;
 }
 
-// グループ化ボタン
-document.getElementById("groupButton").addEventListener("click", () => {
-    groupSelectedPlayers();
-  });
-  
-  document.getElementById("groupButton").addEventListener("touchend", (e) => {
-    e.preventDefault();
-    groupSelectedPlayers();
-  }, { passive: false });
-  
-  function groupSelectedPlayers() {
-    const groupId = Date.now();
-    players.forEach((p) => {
-      if (p.selected) {
-        p.groupId = groupId;
-        p.selected = false;
-      }
-    });
-    console.log("✅ 選手をグループ化しました");
-    renderPlayers();
-  }
-  
+function groupSelectedPlayers() {
+  const groupId = Date.now();
+  groupNames[groupId] = `ライン`;
 
-// 「バラす」ボタンの処理
-// PC用クリック
-document.getElementById("ungroupButton").addEventListener("click", () => {
-    ungroupSelectedPlayers();
+  players.forEach((p) => {
+    if (p.selected) {
+      p.groupId = groupId;
+      p.selected = false;
+    }
   });
-  
-  // iPad用タッチ
-  document.getElementById("ungroupButton").addEventListener("touchend", (e) => {
-    e.preventDefault();
-    ungroupSelectedPlayers();
-  }, { passive: false });
-  
-  // 共通処理（関数にまとめておくと安心）
-  function ungroupSelectedPlayers() {
-    players.forEach((p) => {
-      if (p.selected) {
-        p.groupId = null;
-        p.selected = false;
-      }
-    });
-    console.log("✅ バラした選手のgroupIdを解除しました");
-    renderPlayers();
-  }
-  
+
+  console.log("✅ グループを作成しました:", groupId);
+  renderPlayers();
+}
+
+function ungroupSelectedPlayers() {
+  players.forEach((p) => {
+    if (p.selected) {
+      p.groupId = null;
+      p.selected = false;
+    }
+  });
+  console.log("✅ バラしました");
+  renderPlayers();
+}
+
+// ボタンイベント
+document.getElementById("groupButton").addEventListener("click", groupSelectedPlayers);
+document.getElementById("groupButton").addEventListener("touchend", (e) => {
+  e.preventDefault();
+  groupSelectedPlayers();
+}, { passive: false });
+
+document.getElementById("ungroupButton").addEventListener("click", ungroupSelectedPlayers);
+document.getElementById("ungroupButton").addEventListener("touchend", (e) => {
+  e.preventDefault();
+  ungroupSelectedPlayers();
+}, { passive: false });
 
 renderPlayers();
