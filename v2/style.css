@@ -32,12 +32,15 @@ body {
     justify-content: center;
     user-select: none;
     touch-action: none;
+    transition: none !important;
+    will-change: transform;
   }
+  
   
   .player-1 { background-color: white; color: black; }
   .player-2 { background-color: black; }
   .player-3 { background-color: red; }
-  player-4 { background-color: blue; }
+  .player-4 { background-color: blue; }
   .player-5 { background-color: yellow; color: black; }
   .player-6 { background-color: green; }
   .player-7 { background-color: orange; }
