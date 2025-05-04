@@ -20,7 +20,14 @@ function renderPlayers() {
     div.className = `player player-${player.id}`;
     div.textContent = player.id;
 
-    div.style.transform = `translate(${player.x}px, ${player.y}px)`;
+    div.style.left = player.x + 'px';
+    div.style.top = player.y + 'px';
+    
+    // Safari強制再描画（なければ表示が固まる場合あり）
+    div.style.display = 'none';
+    div.offsetHeight;
+    div.style.display = '';
+    
 
 
     // マウス操作
