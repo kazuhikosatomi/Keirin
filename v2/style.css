@@ -1,80 +1,39 @@
 body {
-    font-family: sans-serif;
-    background-color: #f0f0f0;
-    text-align: center;
     margin: 0;
-    padding: 0;
+    font-family: sans-serif;
+    background: #f0f0f0;
+    text-align: center;
   }
   
   h1 {
     margin: 16px;
   }
   
-  #controls {
-    margin: 16px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    margin: 0 8px;
-    font-size: 16px;
-  }
-  
-  #boardContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 20px;
-    overflow-x: auto;
-    gap: 24px;
-  }
-  
-  .group-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    min-width: 120px;
-  }
-  
-  .group input {
-    font-size: 14px;
-    padding: 4px 6px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    background-color: transparent;
-    text-align: left;
-    margin-left: 4px;
-  }
-  
-  .player-row {
-    display: flex;
-    gap: 10px;
+  #board {
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    background: white;
+    border: 2px solid #333;
+    overflow: hidden;
   }
   
   .player {
     width: 60px;
     height: 60px;
     border-radius: 50%;
+    position: absolute;
     font-size: 20px;
     font-weight: bold;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    touch-action: none;
     user-select: none;
+    touch-action: none;
+    transition: none;
   }
   
-  /* 9色 */
   .player-1 { background-color: white; color: black; }
   .player-2 { background-color: black; }
   .player-3 { background-color: red; }
@@ -84,23 +43,4 @@ body {
   .player-7 { background-color: orange; }
   .player-8 { background-color: pink; color: black; }
   .player-9 { background-color: purple; }
-  
-  .player.selected {
-    outline: 4px solid #007bff;
-  }
-  .player-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-  
-  .name-input {
-    font-size: 12px;
-    width: 64px;
-    text-align: center;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    background: transparent;
-  }
   

@@ -1,142 +1,73 @@
-console.log("✅ app.js 読み込まれた！");
+console.log("✅ 自由配置 app.js 読み込まれた！");
 
-const ungroupedArea = document.getElementById("ungrouped");
-const groupsContainer = document.getElementById("groups");
+const board = document.getElementById("board");
 
 let players = Array.from({ length: 9 }, (_, i) => ({
-    id: i + 1,
-    selected: false,
-    groupId: null,
-    name: "" // ← 選手名（空欄スタート）
-  }));
+  id: i + 1,
+  x: 80 + i * 70, // 初期配置
+  y: 100,
+}));
 
-let groupNames = {}; // { groupId: "ラインA", ... }
+let dragTarget = null;
+let offsetX = 0;
+let offsetY = 0;
 
 function renderPlayers() {
-  ungroupedArea.innerHTML = "";
-  groupsContainer.innerHTML = "";
+  board.innerHTML = "";
 
-  // グループに所属していない選手
-  const ungroupedRow = document.createElement("div");
-  ungroupedRow.className = "player-row";
-
-  players.filter(p => p.groupId === null).forEach(player => {
-    const div = createPlayerElement(player);
-    ungroupedRow.appendChild(div);
-  });
-
-  ungroupedArea.appendChild(ungroupedRow);
-
-  // グループごとに分けて表示
-  const groupedPlayers = players.filter(p => p.groupId !== null);
-  const groupMap = {};
-
-  groupedPlayers.forEach(p => {
-    if (!groupMap[p.groupId]) {
-      groupMap[p.groupId] = [];
-    }
-    groupMap[p.groupId].push(p);
-  });
-
-  Object.entries(groupMap).forEach(([groupId, groupPlayers]) => {
-    const groupDiv = document.createElement("div");
-    groupDiv.className = "group";
-
-    const input = document.createElement("input");
-    input.value = groupNames[groupId] || `グループ ${groupId}`;
-    input.addEventListener("input", () => {
-      groupNames[groupId] = input.value;
-    });
-    groupDiv.appendChild(input);
-
-    const row = document.createElement("div");
-    row.className = "player-row";
-
-    groupPlayers.forEach(p => {
-      const div = createPlayerElement(p);
-      row.appendChild(div);
-    });
-
-    groupDiv.appendChild(row);
-    groupsContainer.appendChild(groupDiv);
-  });
-}
-
-function createPlayerElement(player) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "player-wrapper";
-  
+  players.forEach((player) => {
     const div = document.createElement("div");
     div.className = `player player-${player.id}`;
     div.textContent = player.id;
-  
-    if (player.selected) div.classList.add("selected");
-  
-    // 選択処理（PC・タッチ共通）
-    div.addEventListener("click", () => {
-      player.selected = !player.selected;
-      renderPlayers();
+
+    div.style.left = `${player.x}px`;
+    div.style.top = `${player.y}px`;
+
+    // マウスドラッグ
+    div.addEventListener("mousedown", (e) => {
+      dragTarget = player;
+      offsetX = e.offsetX;
+      offsetY = e.offsetY;
     });
-    div.addEventListener("touchend", (e) => {
-      e.preventDefault();
-      player.selected = !player.selected;
-      renderPlayers();
+
+    // タッチドラッグ
+    div.addEventListener("touchstart", (e) => {
+      const touch = e.touches[0];
+      dragTarget = player;
+      const rect = div.getBoundingClientRect();
+      offsetX = touch.clientX - rect.left;
+      offsetY = touch.clientY - rect.top;
     }, { passive: false });
-  
-    // 選手名入力欄
-    const nameInput = document.createElement("input");
-    nameInput.type = "text";
-    nameInput.value = player.name || "";
-    nameInput.placeholder = "名前";
-    nameInput.className = "name-input";
-    nameInput.addEventListener("input", () => {
-      player.name = nameInput.value;
-    });
-  
-    wrapper.appendChild(div);
-    wrapper.appendChild(nameInput);
-  
-    return wrapper;
+
+    board.appendChild(div);
+  });
+}
+
+// マウス移動
+document.addEventListener("mousemove", (e) => {
+  if (dragTarget) {
+    dragTarget.x = e.clientX - offsetX;
+    dragTarget.y = e.clientY - offsetY;
+    renderPlayers();
   }
-  
+});
 
-function groupSelectedPlayers() {
-  const groupId = Date.now();
-  groupNames[groupId] = `ライン`;
+document.addEventListener("mouseup", () => {
+  dragTarget = null;
+});
 
-  players.forEach((p) => {
-    if (p.selected) {
-      p.groupId = groupId;
-      p.selected = false;
-    }
-  });
-
-  console.log("✅ グループを作成しました:", groupId);
-  renderPlayers();
-}
-
-function ungroupSelectedPlayers() {
-  players.forEach((p) => {
-    if (p.selected) {
-      p.groupId = null;
-      p.selected = false;
-    }
-  });
-  console.log("✅ バラしました");
-  renderPlayers();
-}
-
-// ボタンイベント
-document.getElementById("groupButton").addEventListener("click", groupSelectedPlayers);
-document.getElementById("groupButton").addEventListener("touchend", (e) => {
-  e.preventDefault();
-  groupSelectedPlayers();
+// タッチ移動
+document.addEventListener("touchmove", (e) => {
+  if (dragTarget) {
+    const touch = e.touches[0];
+    dragTarget.x = touch.clientX - offsetX;
+    dragTarget.y = touch.clientY - offsetY;
+    renderPlayers();
+  }
 }, { passive: false });
 
-document.getElementById("ungroupButton").addEventListener("click", ungroupSelectedPlayers);
-document.getElementById("ungroupButton").addEventListener("touchend", (e) => {
-  e.preventDefault();
-  ungroupSelectedPlayers();
-}, { passive: false });
+document.addEventListener("touchend", () => {
+  dragTarget = null;
+});
 
 renderPlayers();
