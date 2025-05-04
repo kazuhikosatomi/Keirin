@@ -39,18 +39,41 @@ div.addEventListener("click", () => {
 
 // グループ化ボタン
 document.getElementById("groupButton").addEventListener("click", () => {
-  const groupId = Date.now();
-  players.forEach((p) => {
-    if (p.selected) {
-      p.groupId = groupId;
-      p.selected = false;
-    }
+    groupSelectedPlayers();
   });
-  renderPlayers();
-});
+  
+  document.getElementById("groupButton").addEventListener("touchend", (e) => {
+    e.preventDefault();
+    groupSelectedPlayers();
+  }, { passive: false });
+  
+  function groupSelectedPlayers() {
+    const groupId = Date.now();
+    players.forEach((p) => {
+      if (p.selected) {
+        p.groupId = groupId;
+        p.selected = false;
+      }
+    });
+    console.log("✅ 選手をグループ化しました");
+    renderPlayers();
+  }
+  
 
 // 「バラす」ボタンの処理
+// PC用クリック
 document.getElementById("ungroupButton").addEventListener("click", () => {
+    ungroupSelectedPlayers();
+  });
+  
+  // iPad用タッチ
+  document.getElementById("ungroupButton").addEventListener("touchend", (e) => {
+    e.preventDefault();
+    ungroupSelectedPlayers();
+  }, { passive: false });
+  
+  // 共通処理（関数にまとめておくと安心）
+  function ungroupSelectedPlayers() {
     players.forEach((p) => {
       if (p.selected) {
         p.groupId = null;
@@ -59,7 +82,7 @@ document.getElementById("ungroupButton").addEventListener("click", () => {
     });
     console.log("✅ バラした選手のgroupIdを解除しました");
     renderPlayers();
-  });
+  }
   
 
 renderPlayers();
