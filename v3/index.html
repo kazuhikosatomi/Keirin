@@ -3,17 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>自由配置（グループ対応）</title>
+  <title>ラインドラッグ統合版</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- interact.js CDN（先に読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 <body>
-  <h1>自由配置（interact.js + グループ連動）</h1>
+  <h1>ラインを作って自由に動かす</h1>
+
+  <div class="buttons">
+    <button id="groupButton">ラインを作る</button>
+    <button id="ungroupButton">バラす</button>
+  </div>
 
   <div id="board"></div>
 
-  <!-- あなたのアプリロジック -->
-  <script src="app_interact_group.js"></script>
+  <script src="app_interact_full.js"></script>
 </body>
 </html>
