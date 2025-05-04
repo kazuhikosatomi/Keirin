@@ -32,12 +32,18 @@ function renderPlayers() {
 
     // タッチドラッグ
     div.addEventListener("touchstart", (e) => {
-      const touch = e.touches[0];
-      dragTarget = player;
-      const rect = div.getBoundingClientRect();
-      offsetX = touch.clientX - rect.left;
-      offsetY = touch.clientY - rect.top;
-    }, { passive: false });
+        const touch = e.touches[0];
+        dragTarget = player;
+      
+        const boardRect = board.getBoundingClientRect();
+        const divRect = div.getBoundingClientRect();
+      
+        offsetX = touch.clientX - divRect.left;
+        offsetY = touch.clientY - divRect.top;
+      
+        e.preventDefault();
+      }, { passive: false });
+      
 
     board.appendChild(div);
   });
@@ -45,12 +51,14 @@ function renderPlayers() {
 
 // マウス移動
 document.addEventListener("mousemove", (e) => {
-  if (dragTarget) {
-    dragTarget.x = e.clientX - offsetX;
-    dragTarget.y = e.clientY - offsetY;
-    renderPlayers();
-  }
-});
+    if (dragTarget) {
+      const boardRect = board.getBoundingClientRect();
+      dragTarget.x = e.clientX - boardRect.left - offsetX;
+      dragTarget.y = e.clientY - boardRect.top - offsetY;
+      renderPlayers();
+    }
+  });
+  
 
 document.addEventListener("mouseup", () => {
   dragTarget = null;
@@ -58,13 +66,17 @@ document.addEventListener("mouseup", () => {
 
 // タッチ移動
 document.addEventListener("touchmove", (e) => {
-  if (dragTarget) {
-    const touch = e.touches[0];
-    dragTarget.x = touch.clientX - offsetX;
-    dragTarget.y = touch.clientY - offsetY;
-    renderPlayers();
-  }
-}, { passive: false });
+    if (dragTarget) {
+      const touch = e.touches[0];
+  
+      const boardRect = board.getBoundingClientRect();
+      dragTarget.x = touch.clientX - boardRect.left - offsetX;
+      dragTarget.y = touch.clientY - boardRect.top - offsetY;
+  
+      renderPlayers();
+    }
+  }, { passive: false });
+  
 
 document.addEventListener("touchend", () => {
   dragTarget = null;
