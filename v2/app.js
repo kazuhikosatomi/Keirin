@@ -49,4 +49,17 @@ document.getElementById("groupButton").addEventListener("click", () => {
   renderPlayers();
 });
 
+// 「バラす」ボタンの処理
+document.getElementById("ungroupButton").addEventListener("click", () => {
+    players.forEach((p) => {
+      if (p.selected) {
+        p.groupId = null;
+        p.selected = false;
+      }
+    });
+    console.log("✅ バラした選手のgroupIdを解除しました");
+    renderPlayers();
+  });
+  
+
 renderPlayers();
