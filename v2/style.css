@@ -1,0 +1,48 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+  }
+  
+  .board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #e0e0e0;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 900px;
+    border: 2px solid #333;
+    min-height: 300px;
+  }
+  
+  .player {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    touch-action: none; /* タブレット用 */
+  }
+  
+  .player.dragging {
+    opacity: 0.5;
+  }
+  
+  .player-1 { background-color: white; color: black; }
+  .player-2 { background-color: black; }
+  .player-3 { background-color: red; }
+  .player-4 { background-color: blue; }
+  .player-5 { background-color: yellow; color: black; }
+  .player-6 { background-color: green; }
+  .player-7 { background-color: orange; }
+  .player-8 { background-color: pink; color: black; }
+  .player-9 { background-color: purple; }
+  
