@@ -36,13 +36,13 @@ function renderPlayers() {
         dragTarget = player;
       
         const boardRect = board.getBoundingClientRect();
-        const divRect = div.getBoundingClientRect();
       
-        offsetX = touch.clientX - divRect.left;
-        offsetY = touch.clientY - divRect.top;
+        offsetX = touch.clientX - boardRect.left - player.x;
+        offsetY = touch.clientY - boardRect.top - player.y;
       
         e.preventDefault();
       }, { passive: false });
+      
       
 
     board.appendChild(div);
@@ -68,14 +68,15 @@ document.addEventListener("mouseup", () => {
 document.addEventListener("touchmove", (e) => {
     if (dragTarget) {
       const touch = e.touches[0];
-  
       const boardRect = board.getBoundingClientRect();
+  
       dragTarget.x = touch.clientX - boardRect.left - offsetX;
       dragTarget.y = touch.clientY - boardRect.top - offsetY;
   
       renderPlayers();
     }
   }, { passive: false });
+  
   
 
 document.addEventListener("touchend", () => {
