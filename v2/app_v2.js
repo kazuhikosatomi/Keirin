@@ -62,14 +62,22 @@ document.addEventListener("mouseup", () => {
 
 // iPad: ドラッグ中の移動
 document.addEventListener("touchmove", (e) => {
-  if (dragTarget) {
-    const touch = e.touches[0];
-    const boardRect = board.getBoundingClientRect();
-    dragTarget.x = touch.clientX - boardRect.left - offsetX;
-    dragTarget.y = touch.clientY - boardRect.top - offsetY;
-    renderPlayers();
-  }
-}, { passive: false });
+    if (dragTarget) {
+      const touch = e.touches[0];
+      const boardRect = board.getBoundingClientRect();
+  
+      const newX = touch.clientX - boardRect.left - offsetX;
+      const newY = touch.clientY - boardRect.top - offsetY;
+  
+      console.log(`📍 move: (${newX.toFixed(1)}, ${newY.toFixed(1)})`);
+  
+      dragTarget.x = newX;
+      dragTarget.y = newY;
+  
+      renderPlayers();
+    }
+  }, { passive: false });
+  
 
 document.addEventListener("touchend", () => {
   dragTarget = null;
