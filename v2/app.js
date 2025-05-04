@@ -48,17 +48,25 @@ function renderPlayers() {
 
       div.addEventListener("touchend", (e) => {
         e.preventDefault();
-        console.log("touchend!", index); // ← ここに追加
         div.classList.remove("dragging");
+      
         const touch = e.changedTouches[0];
+        console.log("touchend座標:", touch.clientX, touch.clientY); // ← 追加
+      
         const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        console.log("elementFromPoint:", target); // ← 追加
+      
         const dropIndex = [...board.children].indexOf(target);
+        console.log("dropIndex候補:", dropIndex); // ← 追加
+      
         if (dropIndex >= 0) {
-          console.log("dropIndex!", dropIndex); // ← ここでもログを出すとよい
+          console.log("✅ dropIndex!", dropIndex); // ← ここが出れば成功
           swapPlayers(dragTarget, dropIndex);
         }
+      
         dragTarget = null;
       }, { passive: false });
+      
       
 
     board.appendChild(div);
