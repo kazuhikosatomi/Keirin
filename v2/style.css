@@ -16,6 +16,7 @@ body {
     max-width: 900px;
     border: 2px solid #333;
     min-height: 300px;
+    gap: 10px;
   }
   
   .player {
@@ -29,13 +30,12 @@ body {
     color: white;
     font-weight: bold;
     font-size: 20px;
-    touch-action: none; /* タブレット用 */
+    touch-action: none;
+    user-select: none;
+    transition: all 0.2s ease;
   }
   
-  .player.dragging {
-    opacity: 0.5;
-  }
-  
+  /* 選手の9色 */
   .player-1 { background-color: white; color: black; }
   .player-2 { background-color: black; }
   .player-3 { background-color: red; }
@@ -45,4 +45,24 @@ body {
   .player-7 { background-color: orange; }
   .player-8 { background-color: pink; color: black; }
   .player-9 { background-color: purple; }
+  
+  /* 選択状態 */
+  .player.selected {
+    outline: 4px solid #007bff;
+  }
+  
+  /* グループ化状態 */
+  .player.grouped {
+    border: 3px dashed green;
+  }
+  
+  /* ボタン */
+  #controls {
+    margin: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
   
