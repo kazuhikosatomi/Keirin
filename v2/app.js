@@ -40,8 +40,9 @@ function renderPlayers() {
         offsetX = touch.clientX - boardRect.left - player.x;
         offsetY = touch.clientY - boardRect.top - player.y;
       
-        e.preventDefault();
+        e.preventDefault(); // ← iPadのスクロール防止
       }, { passive: false });
+      
       
       
 
@@ -70,12 +71,17 @@ document.addEventListener("touchmove", (e) => {
       const touch = e.touches[0];
       const boardRect = board.getBoundingClientRect();
   
-      dragTarget.x = touch.clientX - boardRect.left - offsetX;
-      dragTarget.y = touch.clientY - boardRect.top - offsetY;
+      const newX = touch.clientX - boardRect.left - offsetX;
+      const newY = touch.clientY - boardRect.top - offsetY;
+  
+      // スクロールや拡大によるズレを防ぐため、数値を制限せず直接代入
+      dragTarget.x = newX;
+      dragTarget.y = newY;
   
       renderPlayers();
     }
   }, { passive: false });
+  
   
   
 
