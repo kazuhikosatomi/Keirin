@@ -19,10 +19,19 @@ function renderPlayers() {
     if (player.selected) div.classList.add("selected");
     if (player.groupId !== null) div.classList.add("grouped");
 
-    div.addEventListener("click", () => {
-      player.selected = !player.selected;
-      renderPlayers();
-    });
+// 選手のタップ選択を両対応（PCとタブレット）にする
+div.addEventListener("click", () => {
+    player.selected = !player.selected;
+    renderPlayers();
+  });
+  
+  // 追加：タッチ対応（iPad, iPhone）
+  div.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    player.selected = !player.selected;
+    renderPlayers();
+  }, { passive: false });
+  
 
     board.appendChild(div);
   });
