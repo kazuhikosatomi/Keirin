@@ -29,15 +29,19 @@ function renderPlayers() {
     // 選択：PC
     div.addEventListener("click", () => {
       player.selected = !player.selected;
+      console.log("✅ click 選手:", player.id);
       renderPlayers();
     });
+    
 
     // 選択：タッチ
     div.addEventListener("touchend", (e) => {
       e.preventDefault();
       player.selected = !player.selected;
+      console.log("✅ touchend 選手:", player.id);
       renderPlayers();
     }, { passive: false });
+    
 
     board.appendChild(div);
   });
