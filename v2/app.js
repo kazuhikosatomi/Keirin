@@ -1,3 +1,10 @@
+
+console.log("✅ app.js 読み込まれた！");
+document.body.addEventListener("touchstart", (e) => {
+    console.log("✅ bodyでtouchstart検知！");
+  }, { passive: false });
+  
+
 const board = document.getElementById("board");
 const players = Array.from({ length: 9 }, (_, i) => i + 1);
 let dragTarget = null;
@@ -10,18 +17,19 @@ function renderPlayers() {
     div.className = `player player-${num}`;
     div.textContent = num;
 
-    // ドラッグ開始（PC）
     div.draggable = true;
+
+    // PC用ドラッグ
     div.addEventListener("dragstart", () => {
       dragTarget = index;
       div.classList.add("dragging");
     });
+
     div.addEventListener("dragend", () => {
       dragTarget = null;
       div.classList.remove("dragging");
     });
 
-    // ドロップ（PC）
     div.addEventListener("dragover", (e) => e.preventDefault());
     div.addEventListener("drop", (e) => {
       e.preventDefault();
@@ -29,22 +37,29 @@ function renderPlayers() {
       swapPlayers(dragTarget, index);
     });
 
-    // タッチデバイス向け（touchstart 〜 touchend）
+    // タブレット用タッチ操作
     div.addEventListener("touchstart", (e) => {
-      dragTarget = index;
-      div.classList.add("dragging");
-    }, { passive: true });
+        e.preventDefault(); // ← これ重要
+        console.log("touchstart!", index); // ← ここに追加
+        dragTarget = index;
+        div.classList.add("dragging");
+      }, { passive: false });
+      
 
-    div.addEventListener("touchend", (e) => {
-      div.classList.remove("dragging");
-      const touch = e.changedTouches[0];
-      const target = document.elementFromPoint(touch.clientX, touch.clientY);
-      const dropIndex = [...board.children].indexOf(target);
-      if (dropIndex >= 0) {
-        swapPlayers(dragTarget, dropIndex);
-      }
-      dragTarget = null;
-    }, { passive: true });
+      div.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        console.log("touchend!", index); // ← ここに追加
+        div.classList.remove("dragging");
+        const touch = e.changedTouches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        const dropIndex = [...board.children].indexOf(target);
+        if (dropIndex >= 0) {
+          console.log("dropIndex!", dropIndex); // ← ここでもログを出すとよい
+          swapPlayers(dragTarget, dropIndex);
+        }
+        dragTarget = null;
+      }, { passive: false });
+      
 
     board.appendChild(div);
   });
