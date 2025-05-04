@@ -20,8 +20,8 @@ function renderPlayers() {
     div.className = `player player-${player.id}`;
     div.textContent = player.id;
 
-    div.style.left = `${player.x}px`;
-    div.style.top = `${player.y}px`;
+    div.style.transform = `translate(${player.x}px, ${player.y}px)`;
+
 
     // マウス操作
     div.addEventListener("mousedown", (e) => {
