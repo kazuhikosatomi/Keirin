@@ -1,15 +1,16 @@
-// app_interact_named_v8.js（プレースホルダー対応）
+// app_interact_named_v8.js（プレースホルダー対応 + 全グループ一括バラし）
 console.log("✅ app_interact_named_v8.js 読み込まれた！");
 
 const board = document.getElementById("board");
 const groupButton = document.getElementById("groupButton");
 const ungroupButton = document.getElementById("ungroupButton");
+const ungroupAllButton = document.getElementById("ungroupAllButton");
 const toggleNamesButton = document.getElementById("toggleNamesButton");
 const toggleGroupsButton = document.getElementById("toggleGroupsButton");
 const playerCountSelector = document.getElementById("playerCount");
 
-let showPlayerNames = true;
-let showGroupNames = true;
+let showPlayerNames = false;
+let showGroupNames = false;
 let isDragging = false;
 let dragPreventClick = false;
 
@@ -51,6 +52,7 @@ function renderPlayers() {
       input.value = groupNames[groupId] || "";
       input.style.left = `${minX}px`;
       input.style.top = `${minY - 28}px`;
+      input.style.width = "100px";
 
       input.addEventListener("input", () => {
         groupNames[groupId] = input.value;
@@ -176,6 +178,14 @@ ungroupButton.addEventListener("click", () => {
       p.selected = false;
     }
   });
+  renderPlayers();
+});
+
+ungroupAllButton.addEventListener("click", () => {
+  players.forEach(p => {
+    p.groupId = null;
+  });
+  groupNames = {};
   renderPlayers();
 });
 

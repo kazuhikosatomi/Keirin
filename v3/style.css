@@ -13,7 +13,10 @@ h1 {
   position: relative;
   width: 100vw;
   height: 80vh;
-  background: radial-gradient(circle at center, #d0f0ff 0%, #a0d8ef 70%, #89c4e1 100%);
+  #board {
+    background: linear-gradient(to bottom right, #f0f0f0, #d0d0d0);
+  }
+  
   border: 2px solid #333;
   overflow: hidden;
   touch-action: none;
@@ -77,7 +80,8 @@ button {
   padding: 2px 6px;
   border-radius: 6px;
   border: none;
-  
+  width: 100px; /* ✅ ここを追加または調整 */
+  text-align: left;
 }
 
 .group-name::placeholder {
