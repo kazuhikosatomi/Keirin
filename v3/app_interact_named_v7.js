@@ -1,5 +1,5 @@
-// app_interact_named_v7.js
-console.log("✅ app_interact_named_v7.js 読み込まれた！");
+// app_interact_named_v8.js
+console.log("✅ app_interact_named_v8.js 読み込まれた！");
 
 const board = document.getElementById("board");
 const groupButton = document.getElementById("groupButton");
@@ -10,6 +10,7 @@ const playerCountSelector = document.getElementById("playerCount");
 
 let showPlayerNames = true;
 let showGroupNames = true;
+let isDragging = false;
 
 let players = [];
 let groupNames = {};
@@ -69,12 +70,14 @@ function renderPlayers() {
     circle.textContent = player.id;
 
     circle.addEventListener("click", () => {
+      if (isDragging) return;
       player.selected = !player.selected;
       renderPlayers();
     });
 
     circle.addEventListener("touchend", (e) => {
       e.preventDefault();
+      if (isDragging) return;
       player.selected = !player.selected;
       renderPlayers();
     }, { passive: false });
@@ -104,6 +107,9 @@ function renderPlayers() {
 function setupInteract() {
   interact(".player-wrapper").draggable({
     listeners: {
+      start() {
+        isDragging = true;
+      },
       move(event) {
         const id = Number(event.target.dataset.id);
         const player = players.find(p => p.id === id);
@@ -122,6 +128,9 @@ function setupInteract() {
         });
 
         renderPlayers();
+      },
+      end() {
+        isDragging = false;
       }
     },
     inertia: true,
@@ -181,6 +190,4 @@ playerCountSelector.addEventListener("change", () => {
   initializePlayers(newCount);
 });
 
-// 初期化
 initializePlayers(Number(playerCountSelector.value));
-
