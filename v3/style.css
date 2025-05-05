@@ -44,6 +44,7 @@ h1 {
   align-items: flex-start;
   margin: 8px;
   gap: 6px;
+  width: 100%;
 }
 
 .button-row {
@@ -68,7 +69,9 @@ h1 {
 button {
   font-size: 16px;
   padding: 8px 16px;
-  width: 128px; /* ✅ ボタンサイズ統一 */
+  flex: 1;
+  min-width: 128px;
+  max-width: 128px;
 }
 
 select#playerCount {
@@ -173,7 +176,9 @@ select#playerCount {
   button, select {
     font-size: 12px;
     padding: 4px 8px;
-    width: 128px;
+    flex: 1;
+    min-width: 128px;
+    max-width: 128px;
   }
 
   .player {
