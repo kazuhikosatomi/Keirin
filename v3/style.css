@@ -101,6 +101,7 @@ button {
 .player-8 { background-color: pink; color: black; }
 .player-9 { background-color: purple; }
 
+/* スマホ縦向き */
 @media (max-width: 600px) {
   h1 {
     font-size: 16px;
@@ -120,7 +121,65 @@ button {
     padding: 4px 8px;
   }
 
+  .player {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .player-name {
+    font-size: 9px;
+    width: 40px;
+  }
+
+  .group-name {
+    font-size: 11px;
+    width: 70px;
+  }
+
   #board {
-    height: 75vh; /* ← 高さを画面の75%に拡大 */
+    height: 75vh;
   }
 }
+
+/* スマホ横向き */
+@media (max-height: 600px) and (orientation: landscape) {
+  h1 {
+    font-size: 16px;
+    margin: 4px 0;
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin: 4px 0;
+  }
+
+  button, select {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .player {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .player-name {
+    font-size: 9px;
+    width: 40px;
+  }
+
+  .group-name {
+    font-size: 11px;
+    width: 70px;
+  }
+
+  #board {
+    height: 75vh;
+  }
+}
+
