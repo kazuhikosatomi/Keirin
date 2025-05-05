@@ -1,4 +1,4 @@
-// app_interact_named_v8.js（修正版）
+// app_interact_named_v8.js（プレースホルダー対応）
 console.log("✅ app_interact_named_v8.js 読み込まれた！");
 
 const board = document.getElementById("board");
@@ -47,7 +47,8 @@ function renderPlayers() {
 
       const input = document.createElement("input");
       input.className = "group-name";
-      input.value = groupNames[groupId] || `ライン`;
+      input.placeholder = "ライン";
+      input.value = groupNames[groupId] || "";
       input.style.left = `${minX}px`;
       input.style.top = `${minY - 28}px`;
 
@@ -164,7 +165,7 @@ groupButton.addEventListener("click", () => {
     p.selected = false;
   });
 
-  groupNames[newGroupId] = "ライン";
+  groupNames[newGroupId] = "";
   renderPlayers();
 });
 

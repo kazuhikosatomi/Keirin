@@ -43,7 +43,7 @@ button {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
   color: white;
   display: flex;
@@ -77,7 +77,15 @@ button {
   padding: 2px 6px;
   border-radius: 6px;
   border: none;
+  
 }
+
+.group-name::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+
 
 .player-1 { background-color: white; color: black; }
 .player-2 { background-color: black; }
