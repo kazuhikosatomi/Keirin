@@ -1,4 +1,4 @@
-// app_interact_named_v8.js（スマホ spacing 調整あり）
+// app_interact_named_v8.js（スマホ spacing 調整あり：さらに狭く）
 console.log("✅ app_interact_named_v8.js 読み込まれた！");
 
 const board = document.getElementById("board");
@@ -159,7 +159,7 @@ groupButton.addEventListener("click", () => {
   const baseY = selected[0].y;
 
   const isSmallScreen = window.innerWidth <= 600;
-  const spacing = isSmallScreen ? 50 : 70; // ✅ スマホは狭めに調整
+  const spacing = isSmallScreen ? 40 : 70; // ✅ スマホはさらに狭く（40px）
 
   const newGroupId = Date.now();
 
