@@ -19,32 +19,14 @@
       flex-wrap: wrap;
     }
 
-    .left-panel {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-
     .logo {
       height: 55px;
-    }
-
-    .player-select {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    select#playerCount {
-      font-size: 16px;
-      padding: 4px 8px;
     }
 
     .right-buttons {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
       flex-grow: 1;
     }
 
@@ -53,6 +35,12 @@
       gap: 6px;
       flex-wrap: wrap;
       justify-content: flex-start;
+    }
+
+    .player-select {
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     button {
@@ -72,9 +60,14 @@
       background-color: #0056b3;
     }
 
+    select#playerCount {
+      font-size: 14px;
+      padding: 6px 10px;
+    }
+
     #board {
       width: 100vw;
-      height: calc(100vh - 130px); /* 少し余裕を持たせた高さ */
+      height: calc(100vh - 130px);
       background-color: #cccccc;
       position: relative;
       overflow: hidden;
@@ -103,36 +96,34 @@
 <body>
 
   <header class="header">
-    <div class="left-panel">
-      <img src="keirinbu_logo.png" alt="競輪部 ロゴ" class="logo" />
-      <div class="player-select">
-        <select id="playerCount">
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9" selected>9</option>
-        </select>
-        <label for="playerCount">車立</label>
-      </div>
-    </div>
+    <img src="keirinbu_logo.png" alt="競輪部 ロゴ" class="logo" />
 
     <div class="right-buttons">
-      <div class="button-row">
-        <button id="groupButton">ライン形成</button>
-        <button id="ungroupButton">ライン解除</button>
-        <button id="ungroupAllButton">全て解除</button>
-      </div>
       <div class="button-row">
         <button id="toggleNamesButton">選手名</button>
         <button id="toggleGroupsButton">ライン名</button>
         <button id="saveButton">保存</button>
         <button id="loadButton">復元</button>
       </div>
+      <div class="button-row">
+        <button id="groupButton">ライン形成</button>
+        <button id="ungroupButton">ライン解除</button>
+        <button id="ungroupAllButton">全て解除</button>
+        <div class="player-select">
+          <select id="playerCount">
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9" selected>9</option>
+          </select>
+          <label for="playerCount">車立</label>
+        </div>
+      </div>
     </div>
   </header>
 
   <div id="board"></div>
 
-  <script src="app_interact_named_v8.js?v=26"></script>
+  <script src="app_interact_named_v8.js?v=28"></script>
 
   <script>
     function adjustBoardHeight() {
