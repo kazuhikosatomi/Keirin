@@ -1,4 +1,4 @@
-// app_interact_named_v8.js
+// app_interact_named_v8.js（修正版）
 console.log("✅ app_interact_named_v8.js 読み込まれた！");
 
 const board = document.getElementById("board");
@@ -11,6 +11,7 @@ const playerCountSelector = document.getElementById("playerCount");
 let showPlayerNames = true;
 let showGroupNames = true;
 let isDragging = false;
+let dragPreventClick = false;
 
 let players = [];
 let groupNames = {};
@@ -70,14 +71,14 @@ function renderPlayers() {
     circle.textContent = player.id;
 
     circle.addEventListener("click", () => {
-      if (isDragging) return;
+      if (dragPreventClick) return;
       player.selected = !player.selected;
       renderPlayers();
     });
 
     circle.addEventListener("touchend", (e) => {
       e.preventDefault();
-      if (isDragging) return;
+      if (dragPreventClick) return;
       player.selected = !player.selected;
       renderPlayers();
     }, { passive: false });
@@ -109,6 +110,7 @@ function setupInteract() {
     listeners: {
       start() {
         isDragging = true;
+        dragPreventClick = true;
       },
       move(event) {
         const id = Number(event.target.dataset.id);
@@ -131,6 +133,7 @@ function setupInteract() {
       },
       end() {
         isDragging = false;
+        setTimeout(() => { dragPreventClick = false; }, 100);
       }
     },
     inertia: true,
