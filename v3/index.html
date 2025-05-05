@@ -5,30 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>自由配置 v7 - 選手数切替対応</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    select#playerCount {
+      font-size: 18px;
+      padding: 6px 10px;
+    }
+  </style>
   <link rel="manifest" href="manifest.json" />
   <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 <body>
-  <h1>スマホ調整v11</h1>
+  <h1>スマホ調整v12</h1>
 
   <div class="buttons">
-    <label for="playerCount">選手数:</label>
+    
     <select id="playerCount">
       <option value="7">7</option>
       <option value="8">8</option>
       <option value="9" selected>9</option>
     </select>
+    <label for="playerCount">車立</label>
 
-    <button id="groupButton">ラインを作る</button>
-    <button id="ungroupButton">バラす</button>
-    <button id="ungroupAllButton">全てバラす</button>
-    <button id="toggleNamesButton">選手名 表示/非表示</button>
-    <button id="toggleGroupsButton">ライン名 表示/非表示</button>
+    <button id="groupButton">ライン形成</button>
+    <button id="ungroupButton">ライン解除</button>
+    <button id="ungroupAllButton">全て解除</button>
+    <button id="toggleNamesButton">選手名</button>
+    <button id="toggleGroupsButton">ライン名</button>
   </div>
 
   <div id="board"></div>
 
-  <script src="app_interact_named_v8.js?v=23"></script>
+  <script src="app_interact_named_v8.js?v=24"></script>
 
   <script>
     function adjustBoardHeight() {
