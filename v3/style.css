@@ -1,62 +1,89 @@
 body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #f0f0f0;
-    text-align: center;
-  }
-  
-  h1 {
-    margin: 12px;
-  }
-  
-  #board {
-    position: relative;
-    width: 100vw;
-    height: 80vh;
-    background: white;
-    border: 2px solid #333;
-    overflow: hidden;
-    touch-action: none;
-  }
-  
-  .buttons {
-    margin: 8px;
-  }
-  
-  button {
-    margin: 0 8px;
-    padding: 8px 16px;
-    font-size: 16px;
-  }
-  
-  .player {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    position: absolute;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    touch-action: none;
-    will-change: transform;
-    border: 2px solid transparent;
-  }
-  
-  .player.selected {
-    border-color: deepskyblue;
-  }
-  
-  .player-1 { background-color: white; color: black; }
-  .player-2 { background-color: black; }
-  .player-3 { background-color: red; }
-  .player-4 { background-color: blue; }
-  .player-5 { background-color: yellow; color: black; }
-  .player-6 { background-color: green; }
-  .player-7 { background-color: orange; }
-  .player-8 { background-color: pink; color: black; }
-  .player-9 { background-color: purple; }
-  
+  margin: 0;
+  font-family: sans-serif;
+  background: #f0f0f0;
+  text-align: center;
+}
+
+h1 {
+  margin: 12px;
+}
+
+#board {
+  position: relative;
+  width: 100vw;
+  height: 80vh;
+  background: white;
+  border: 2px solid #333;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.buttons {
+  margin: 8px;
+}
+
+button {
+  margin: 0 8px;
+  padding: 8px 16px;
+  font-size: 16px;
+}
+
+.player-wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+  pointer-events: none; /* 全体のイベントを透過（子に任せる） */
+}
+
+.player {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: none;
+  border: 2px solid transparent;
+  pointer-events: auto; /* クリックを有効化 */
+}
+
+.player.selected {
+  border-color: deepskyblue;
+}
+
+.player-name {
+  margin-top: 4px;
+  font-size: 12px;
+  width: 60px;
+  text-align: center;
+  border: none;
+  background: rgba(255, 255, 255, 0.7);
+  pointer-events: auto;
+}
+
+.group-name {
+  position: absolute;
+  font-size: 14px;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.player-1 { background-color: white; color: black; }
+.player-2 { background-color: black; }
+.player-3 { background-color: red; }
+.player-4 { background-color: blue; }
+.player-5 { background-color: yellow; color: black; }
+.player-6 { background-color: green; }
+.player-7 { background-color: orange; }
+.player-8 { background-color: pink; color: black; }
+.player-9 { background-color: purple; }
