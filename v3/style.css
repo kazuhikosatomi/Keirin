@@ -102,30 +102,25 @@ button {
 .player-9 { background-color: purple; }
 
 @media (max-width: 600px) {
-  .player {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+  h1 {
+    font-size: 16px;
+    margin: 4px 0;
   }
 
-  .player-name {
-    font-size: 10px;
-    width: 40px;
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin: 4px 0;
   }
 
-  .group-name {
+  button, select {
     font-size: 12px;
-    width: 80px;
+    padding: 4px 8px;
   }
 
-  button {
-    font-size: 14px;
-    padding: 6px 10px;
-    margin: 2px 4px;
-  }
-
-  select {
-    font-size: 14px;
-    padding: 4px;
+  #board {
+    height: 75vh; /* ← 高さを画面の75%に拡大 */
   }
 }
