@@ -88,6 +88,45 @@
       #board {
         height: calc(100vh - 120px);
       }
+
+      .player {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+
+      .player-name {
+        font-size: 9px;
+        font-weight: bold;
+        width: 40px;
+        margin-top: 2px;
+      }
+    }
+
+    @media (max-height: 600px) and (orientation: landscape) {
+      .player {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+
+      .player-name {
+        font-size: 9px;
+        font-weight: bold;
+        width: 40px;
+        margin-top: 2px;
+      }
+
+      .group-name {
+        font-size: 11px;
+        font-weight: bold;
+        width: 70px;
+        top: -22px !important;
+      }
+
+      #board {
+        height: 75vh;
+      }
     }
   </style>
   <link rel="manifest" href="manifest.json" />
@@ -116,7 +155,7 @@
             <option value="9" selected>9</option>
           </select>
           <label for="playerCount">車立</label>
-          <span class="version-label">v5</span> <!-- ← 追加 -->
+          <span class="version-label">v6</span> <!-- ← 追加 -->
         </div>
       </div>
     </div>
@@ -124,7 +163,7 @@
 
   <div id="board"></div>
 
-  <script src="app_interact_named_v8.js?v=34"></script>
+  <script src="app_interact_named_v8.js?v=35"></script>
 
   <script>
     function adjustBoardHeight() {
