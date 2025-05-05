@@ -14,10 +14,11 @@ h1 {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: #bbbbbb; /* グレー背景（やや濃い） */
+  background-color: #cccccc; /* やや薄いグレー */
   border: 2px solid #333;
   overflow: hidden;
   touch-action: none;
+  z-index: 0;
 }
 
 /* 白の横線（4分の3の位置） */
@@ -31,8 +32,6 @@ h1 {
   background-color: white;
   z-index: 0; /* 最背面に配置 */
 }
-
-
 
 .buttons {
   margin: 8px;
@@ -50,8 +49,8 @@ button {
   flex-direction: column;
   align-items: center;
   will-change: transform;
-  pointer-events: none; /* 全体のイベントを透過（子に任せる） */
-  z-index: 10; /* 選手を前面に */
+  pointer-events: none;
+  z-index: 10;
 }
 
 .player {
@@ -67,7 +66,7 @@ button {
   user-select: none;
   touch-action: none;
   border: 2px solid transparent;
-  pointer-events: auto; /* クリックを有効化 */
+  pointer-events: auto;
 }
 
 .player.selected {
@@ -84,6 +83,11 @@ button {
   pointer-events: auto;
 }
 
+.player-name::placeholder {
+  color: #888;
+  /* font-style: italic; を削除 */
+}
+
 .group-name {
   position: absolute;
   font-size: 16px;
@@ -92,17 +96,16 @@ button {
   padding: 2px 6px;
   border-radius: 6px;
   border: none;
-  width: 100px; /* ✅ ここを追加または調整 */
+  width: 100px;
   text-align: left;
 }
 
 .group-name::placeholder {
-  color: #aaa;
+  color: #888;
   font-style: italic;
 }
 
-
-
+/* プレイヤーカラー */
 .player-1 { background-color: white; color: black; }
 .player-2 { background-color: black; }
 .player-3 { background-color: red; }
@@ -142,6 +145,7 @@ button {
   .player-name {
     font-size: 9px;
     width: 40px;
+    margin-top: 2px;
   }
 
   .group-name {
@@ -183,6 +187,7 @@ button {
   .player-name {
     font-size: 9px;
     width: 40px;
+    margin-top: 2px;
   }
 
   .group-name {
@@ -190,9 +195,7 @@ button {
     width: 70px;
   }
 
-/* #board {
-  height: 75vh;
-} */
-
+  /* #board {
+    height: 75vh;
+  } */
 }
-
