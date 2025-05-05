@@ -3,17 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>自由配置 v5 - 名前は丸の下</title>
+  <title>自由配置 v6 - 表示切替付き</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 <body>
-  <h1>選手名は丸の外に表示（v5）</h1>
+  <h1>名前表示 切り替え対応（v6）</h1>
+
   <div class="buttons">
     <button id="groupButton">ラインを作る</button>
     <button id="ungroupButton">バラす</button>
+    <button id="toggleNamesButton">選手名 表示/非表示</button>
+    <button id="toggleGroupsButton">ライン名 表示/非表示</button>
   </div>
+
   <div id="board"></div>
-  <script src="app_interact_named_v5.js"></script>
+
+  <script src="app_interact_named_v6.js"></script>
 </body>
 </html>
