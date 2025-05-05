@@ -18,7 +18,7 @@ let players = [];
 let groupNames = {};
 
 function initializePlayers(count) {
-  const isSmallScreen = window.innerWidth <= 600;
+  const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
   const spacing = isSmallScreen ? 40 : 70;
 
   players = Array.from({ length: count }, (_, i) => ({
