@@ -162,15 +162,18 @@ groupButton.addEventListener("click", () => {
   const baseY = selected[0].y;
 
   const isSmallScreen = window.innerWidth <= 600;
-  const spacing = isSmallScreen ? 40 : 70; // ✅ スマホはさらに狭く（40px）
+  const spacing = isSmallScreen ? 25 : 70; // ✅ スマホは超狭く（25px）
 
   const newGroupId = Date.now();
+
+  console.log("✅ spacing 値（group）:", spacing);
 
   selected.forEach((p, i) => {
     p.groupId = newGroupId;
     p.x = baseX + i * spacing;
     p.y = baseY;
     p.selected = false;
+    console.log(`📍 選手 ${p.id}: x = ${p.x}, y = ${p.y}`);
   });
 
   groupNames[newGroupId] = "";
