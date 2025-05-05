@@ -8,7 +8,10 @@ body {
 h1 {
   margin: 12px;
 }
-
+.logo {
+  height: 96px; /* 例：以前より少し大きめ */
+  margin-right: 8px;
+}
 /* board 背景と 75% 白ラインのみ */
 #board {
   position: relative;

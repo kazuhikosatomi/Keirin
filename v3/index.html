@@ -3,39 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>自由配置 v7 - 選手数切替対応</title>
+  <title>競輪部 公式app</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     select#playerCount {
       font-size: 18px;
       padding: 6px 10px;
     }
+    button {
+      margin: 0 6px;
+      padding: 6px 12px;
+      font-size: 14px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 6px;
+      gap: 12px;
+    }
+
+    .logo {
+      height: 96px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
   </style>
   <link rel="manifest" href="manifest.json" />
   <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 <body>
-  <h1>スマホ調整v12</h1>
-
-  <div class="buttons">
-    
-    <select id="playerCount">
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9" selected>9</option>
-    </select>
-    <label for="playerCount">車立</label>
-
-    <button id="groupButton">ライン形成</button>
-    <button id="ungroupButton">ライン解除</button>
-    <button id="ungroupAllButton">全て解除</button>
-    <button id="toggleNamesButton">選手名</button>
-    <button id="toggleGroupsButton">ライン名</button>
-  </div>
+  <header class="header">
+    <img src="keirinbu.png" alt="競輪部 公式 APP ロゴ" class="logo" />
+    <div class="buttons">
+      <select id="playerCount">
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9" selected>9</option>
+      </select>
+      <label for="playerCount">車立</label>
+      <button id="groupButton">ライン形成</button>
+      <button id="ungroupButton">ライン解除</button>
+      <button id="ungroupAllButton">全て解除</button>
+      <button id="toggleNamesButton">選手名</button>
+      <button id="toggleGroupsButton">ライン名</button>
+    </div>
+  </header>
 
   <div id="board"></div>
 
-  <script src="app_interact_named_v8.js?v=24"></script>
+  <script src="app_interact_named_v8.js?v=25"></script>
 
   <script>
     function adjustBoardHeight() {
