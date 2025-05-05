@@ -3,43 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#ff0000" />
-  <title>競輪部 展開予想ボード</title>
+  <title>自由配置 v7 - 選手数切替対応</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icons/keirin-icon-192x192.png">
+  <link rel="manifest" href="manifest.json" />
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 <body>
-  <h1>競輪部 展開予想ボード v5</h1>
+  <h1>スマホ調整v1</h1>
 
-  <select id="playerCount">
-    <option value="6">6</option>
-    <option value="7">7</option>
-    <option value="8">8</option>
-    <option value="9" selected>9</option>
-  </select>
-  <label for="playerCount">車立</label>
+  <div class="buttons">
+    <label for="playerCount">選手数:</label>
+    <select id="playerCount">
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9" selected>9</option>
+    </select>
 
-  <button id="startBtn">スタート</button>
-  <button id="groupBtn">ライン形成</button>
-  <button id="unsortBtn">ライン解除</button>
-  <button id="saveBtn">保存</button>
-  <button id="loadBtn">復元</button>
-  <button id="toggleNamesBtn">選手名の表示/非表示</button>
-  <button id="toggleGroupNamesBtn">ライン名の表示/非表示</button>
+    <button id="groupButton">ラインを作る</button>
+    <button id="ungroupButton">バラす</button>
+    <button id="ungroupAllButton">全てバラす</button>
+    <button id="toggleNamesButton">選手名 表示/非表示</button>
+    <button id="toggleGroupsButton">ライン名 表示/非表示</button>
+  </div>
 
+  <div id="board"></div>
 
-  <div id="board" class="board"></div>
+  <script src="app_interact_named_v8.js?v=6"></script>
 
-  <script src="app.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('Service Worker registered:', reg))
-          .catch(err => console.log('Service Worker registration failed:', err));
-      });
-    }
-  </script>
 </body>
 </html>

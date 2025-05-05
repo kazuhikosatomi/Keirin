@@ -1,92 +1,131 @@
 body {
-  font-family: Arial, sans-serif;
+  margin: 0;
+  font-family: sans-serif;
+  background: #f0f0f0;
   text-align: center;
-  padding: 20px;
 }
 
 h1 {
-  font-size: 2em;
+  margin: 12px;
 }
 
 #board {
   position: relative;
-  width: 1000px;
-  height: 400px;
-  margin: 20px auto;
-  background-color: #f0f0f0;
-  border: 2px solid #000;
+  width: 100vw;
+  height: 80vh;
+  #board {
+    background: linear-gradient(to bottom right, #f0f0f0, #d0d0d0);
+  }
+  
+  border: 2px solid #333;
+  overflow: hidden;
+  touch-action: none;
 }
 
-.racer {
+
+.buttons {
+  margin: 8px;
+}
+
+button {
+  margin: 0 8px;
+  padding: 8px 16px;
+  font-size: 16px;
+}
+
+.player-wrapper {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+  pointer-events: none; /* 全体のイベントを透過（子に任せる） */
+}
+
+.player {
   width: 60px;
   height: 60px;
-  background-color: #ffcc00;
   border-radius: 50%;
-  text-align: center;
-  line-height: 60px;
+  font-size: 25px;
   font-weight: bold;
-  cursor: pointer;
-}
-
-.racer.selected {
-  background-color: red;
-}
-
-.selected {
-  border: 3px solid red;
-}
-
-.group {
-  position: absolute; /* グループも絶対位置 */
-}
-
-/* 修正後：全ボタンに共通スタイルを適用 */
-#startBtn, #groupBtn, #unsortBtn, #saveBtn, #loadBtn, #toggleNamesBtn, #toggleGroupNamesBtn{
-  padding: 10px 20px;
-  font-size: 1.2em;
-  background-color: #4CAF50;
   color: white;
-  border: none;
-  cursor: pointer;
-  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: none;
+  border: 2px solid transparent;
+  pointer-events: auto; /* クリックを有効化 */
 }
 
-#startBtn:hover, #groupBtn:hover, #unsortBtn:hover, #saveBtn:hover, #loadBtn:hover, #toggleNamesBtn, #toggleGroupNamesBtn:hover {
-  background-color: #45a049;
+.player.selected {
+  border-color: deepskyblue;
 }
 
-.racer-number {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.racer .name {
-  margin-top: 2px;
-  font-size: 16px;
-  line-height: 1;
-}
-#playerCount {
-  min-width: 80px;
-  font-size: 1.5em;
-  padding: 10px;
-  width: 80px;
+.player-name {
+  margin-top: 4px;
+  font-size: 12px;
+  width: 60px;
   text-align: center;
-  border: 2px solid #000;
-  border-radius: 5px;
-  margin-top: 1px;
+  border: none;
+  background: transparent;
+  pointer-events: auto;
 }
-.name {
-  display: block; /* 初期状態では選手名を表示 */
+
+.group-name {
+  position: absolute;
+  font-size: 14px;
+  font-weight: bold;
+  background: transparent;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: none;
+  width: 100px; /* ✅ ここを追加または調整 */
+  text-align: left;
 }
-.group-label.hidden {
-  display: none;
+
+.group-name::placeholder {
+  color: #aaa;
+  font-style: italic;
 }
 
 
-/* スマホ・タブレット向け調整（必要に応じて） */
-@media (max-width: 768px) {
-  .racer-number {
-    font-size: 24px;
+
+.player-1 { background-color: white; color: black; }
+.player-2 { background-color: black; }
+.player-3 { background-color: red; }
+.player-4 { background-color: blue; }
+.player-5 { background-color: yellow; color: black; }
+.player-6 { background-color: green; }
+.player-7 { background-color: orange; }
+.player-8 { background-color: pink; color: black; }
+.player-9 { background-color: purple; }
+
+@media (max-width: 600px) {
+  .player {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .player-name {
+    font-size: 10px;
+    width: 40px;
+  }
+
+  .group-name {
+    font-size: 12px;
+    width: 80px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 6px 10px;
+    margin: 2px 4px;
+  }
+
+  select {
+    font-size: 14px;
+    padding: 4px;
   }
 }
