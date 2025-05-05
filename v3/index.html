@@ -10,6 +10,7 @@
       font-size: 18px;
       padding: 6px 10px;
     }
+
     button {
       margin: 0 6px;
       padding: 6px 12px;
@@ -34,7 +35,22 @@
     }
 
     .logo {
-      height: 60px;
+      height: 55px;
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .player-select {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 4px;
     }
 
     .buttons {
@@ -42,6 +58,21 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 6px;
+      justify-content: center;
+    }
+
+    @media (max-width: 600px) {
+      .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        justify-content: center;
+      }
+
+      .buttons button {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 100px;
+      }
     }
   </style>
   <link rel="manifest" href="manifest.json" />
@@ -50,18 +81,22 @@
 <body>
   <header class="header">
     <img src="keirinbu_logo.png" alt="競輪部 公式 APP ロゴ" class="logo" />
-    <div class="buttons">
-      <select id="playerCount">
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9" selected>9</option>
-      </select>
-      <label for="playerCount">車立</label>
-      <button id="groupButton">ライン形成</button>
-      <button id="ungroupButton">ライン解除</button>
-      <button id="ungroupAllButton">全て解除</button>
-      <button id="toggleNamesButton">選手名</button>
-      <button id="toggleGroupsButton">ライン名</button>
+    <div class="header-content">
+      <div class="player-select">
+        <select id="playerCount">
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9" selected>9</option>
+        </select>
+        <label for="playerCount">車立</label>
+      </div>
+      <div class="buttons">
+        <button id="groupButton">ライン形成</button>
+        <button id="ungroupButton">ライン解除</button>
+        <button id="ungroupAllButton">全て解除</button>
+        <button id="toggleNamesButton">選手名</button>
+        <button id="toggleGroupsButton">ライン名</button>
+      </div>
     </div>
   </header>
 
@@ -73,23 +108,21 @@
     function adjustBoardHeight() {
       const board = document.getElementById("board");
       if (!board) return;
-  
+
       const header = document.querySelector("h1");
       const buttons = document.querySelector(".buttons");
-  
+
       const topHeight =
         (header?.offsetHeight || 0) +
         (buttons?.offsetHeight || 0) +
-        12; // 小さな余白分
-  
+        12;
+
       const usableHeight = window.innerHeight - topHeight;
       board.style.height = `${usableHeight}px`;
     }
-  
+
     window.addEventListener("load", adjustBoardHeight);
     window.addEventListener("resize", adjustBoardHeight);
   </script>
-  
-
 </body>
 </html>
