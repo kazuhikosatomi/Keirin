@@ -100,3 +100,32 @@ button {
 .player-7 { background-color: orange; }
 .player-8 { background-color: pink; color: black; }
 .player-9 { background-color: purple; }
+
+@media (max-width: 600px) {
+  .player {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+
+  .player-name {
+    font-size: 10px;
+    width: 48px;
+  }
+
+  .group-name {
+    font-size: 12px;
+    width: 80px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 6px 10px;
+    margin: 2px 4px;
+  }
+
+  select {
+    font-size: 14px;
+    padding: 4px;
+  }
+}
