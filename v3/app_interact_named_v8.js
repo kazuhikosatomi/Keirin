@@ -1,4 +1,4 @@
-// app_interact_named_v8.js（プレースホルダー対応 + 全グループ一括バラし）
+// app_interact_named_v8.js（スマホ spacing 調整あり）
 console.log("✅ app_interact_named_v8.js 読み込まれた！");
 
 const board = document.getElementById("board");
@@ -157,7 +157,10 @@ groupButton.addEventListener("click", () => {
 
   const baseX = selected[0].x;
   const baseY = selected[0].y;
-  const spacing = 70;
+
+  const isSmallScreen = window.innerWidth <= 600;
+  const spacing = isSmallScreen ? 50 : 70; // ✅ スマホは狭めに調整
+
   const newGroupId = Date.now();
 
   selected.forEach((p, i) => {
