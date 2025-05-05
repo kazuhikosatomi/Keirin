@@ -121,6 +121,9 @@ function setupInteract() {
 // グループ化（ラインを作る）
 groupButton.addEventListener("click", () => {
   const selected = players.filter(p => p.selected);
+
+  selected.sort((a, b) => a.x - b.x); // ← 追加！
+
   if (selected.length === 0) return;
 
   const baseX = selected[0].x;
