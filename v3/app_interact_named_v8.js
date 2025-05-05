@@ -161,7 +161,7 @@ groupButton.addEventListener("click", () => {
   const baseX = selected[0].x;
   const baseY = selected[0].y;
 
-  const isSmallScreen = window.innerWidth <= 600;
+  const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
   const spacing = isSmallScreen ? 25 : 70; // ✅ スマホは超狭く（25px）
 
   const newGroupId = Date.now();
