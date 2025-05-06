@@ -55,9 +55,7 @@ function renderPlayers() {
       input.value = groupNames[groupId] || "";
       input.style.left = `${minX}px`;
       const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
-      const topOffset = isSmallScreen ? 16 : 28;
-      const adjustedTop = Math.max(minY - topOffset, 0);
-      input.style.top = `${adjustedTop}px`;
+      input.style.top = `${minY - (isSmallScreen ? 16 : 28)}px`;
       input.style.width = "100px";
 
       input.addEventListener("input", () => {
@@ -65,7 +63,6 @@ function renderPlayers() {
       });
 
       board.appendChild(input);
-      console.log(`🟢 .group-name added at (${minX}, ${adjustedTop}) for group ${groupId}`);
     });
   }
 
@@ -207,6 +204,10 @@ toggleNamesButton.addEventListener("click", () => {
   renderPlayers();
 });
 
+toggleGroupsButton.addEventListener("click", () => {
+  showGroupNames = !showGroupNames;
+  renderPlayers();
+});
 
 playerCountSelector.addEventListener("change", () => {
   const newCount = Number(playerCountSelector.value);
@@ -214,16 +215,3 @@ playerCountSelector.addEventListener("change", () => {
 });
 
 initializePlayers(Number(playerCountSelector.value));
-
-window.addEventListener("load", () => {
-  const toggleGroupsButton = document.getElementById("toggleGroupsButton");
-  if (toggleGroupsButton) {
-    toggleGroupsButton.addEventListener("click", () => {
-      alert("✅ ライン名切り替えボタンが押されました！");
-      showGroupNames = !showGroupNames;
-      renderPlayers();
-    });
-  } else {
-    console.warn("❌ toggleGroupsButton が見つかりませんでした");
-  }
-});

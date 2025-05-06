@@ -124,16 +124,21 @@ select#playerCount {
   color: #888;
 }
 
-/* .group-name の視認性向上 */
 .group-name {
-  display: block !important;
-  z-index: 9999 !important;
-  font-size: 11px !important;
-  background-color: white !important;
-  border: 2px solid red !important;
-  box-shadow: 0 0 4px black !important;
-  color: black !important;
-  opacity: 1 !important;
+  position: absolute;
+  font-size: 16px;
+  font-weight: bold;
+  background: transparent;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: none;
+  width: 100px;
+  text-align: left;
+}
+
+.group-name::placeholder {
+  color: #888;
+  font-style: italic;
 }
 
 /* プレイヤーカラー */
@@ -189,6 +194,12 @@ select#playerCount {
     margin-top: 2px;
   }
 
+  .group-name {
+    font-size: 11px;
+    font-weight: bold;
+    width: 70px;
+    top: -22px !important;
+  }
 
   #board {
     height: 75vh;
