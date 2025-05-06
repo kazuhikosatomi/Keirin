@@ -46,7 +46,9 @@ function renderPlayers() {
   });
 
   if (showGroupNames) {
+    console.log("🟡 グループ名描画開始: group count =", Object.keys(grouped).length);
     Object.entries(grouped).forEach(([groupId, groupPlayers]) => {
+      console.log("🟢 グループ描画:", groupId, "人数:", groupPlayers.length);
       const minX = Math.min(...groupPlayers.map(p => p.x));
       const minY = Math.min(...groupPlayers.map(p => p.y));
 
@@ -64,6 +66,7 @@ function renderPlayers() {
       });
 
       board.appendChild(input);
+      console.log("🟣 input 追加:", input.outerHTML);
     });
   }
 
