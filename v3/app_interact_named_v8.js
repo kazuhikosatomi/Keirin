@@ -60,7 +60,7 @@ function renderPlayers() {
       input.placeholder = "ライン";
       input.value = groupNames[groupId] || "";
       input.style.left = `${minX}px`;
-      input.style.top = `${minY - (isSmallScreen ? 16 : 28)}px`;
+      input.style.top = `${minY - (isSmallScreen ? 28 : 28)}px`;
       input.style.width = "100px";
 
       input.addEventListener("input", () => {
