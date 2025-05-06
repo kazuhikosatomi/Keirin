@@ -207,4 +207,8 @@ select#playerCount {
 }
 .group-name {
   display: block !important;
+  z-index: 9999 !important;
+  font-size: 11px !important;
+  background-color: white;
+  opacity: 1;
 }
