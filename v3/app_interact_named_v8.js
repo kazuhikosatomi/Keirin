@@ -10,7 +10,7 @@ const toggleGroupsButton = document.getElementById("toggleGroupsButton");
 const playerCountSelector = document.getElementById("playerCount");
 
 let showPlayerNames = false;
-let showGroupNames = false;
+let showGroupNames = true;
 let isDragging = false;
 let dragPreventClick = false;
 
@@ -34,6 +34,7 @@ function initializePlayers(count) {
 }
 
 function renderPlayers() {
+  console.log("👁 showGroupNames:", showGroupNames);
   board.innerHTML = "";
 
   const grouped = {};
@@ -208,6 +209,11 @@ toggleGroupsButton.addEventListener("click", () => {
   showGroupNames = !showGroupNames;
   renderPlayers();
 });
+toggleGroupsButton.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  showGroupNames = !showGroupNames;
+  renderPlayers();
+}, { passive: false });
 
 playerCountSelector.addEventListener("change", () => {
   const newCount = Number(playerCountSelector.value);
