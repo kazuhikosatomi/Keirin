@@ -139,6 +139,10 @@ select#playerCount {
   opacity: 1;
   z-index: 20;
   outline: 1px solid red; /* temporary for visibility testing */
+  z-index: 20 !important;
+  display: block !important;
+  pointer-events: auto;
+  opacity: 1;
 }
 
 .group-name::placeholder {
@@ -205,8 +209,9 @@ select#playerCount {
     font-weight: bold;
     width: 70px;
     top: -28px !important;
+    z-index: 20 !important;
     display: block !important;
-    visibility: visible !important;
+    pointer-events: auto;
     opacity: 1 !important;
     position: absolute;
     background: yellow; /* temporary for visibility */
@@ -223,8 +228,9 @@ select#playerCount {
     font-weight: bold;
     width: 70px;
     top: -28px !important;
+    z-index: 20 !important;
     display: block !important;
-    visibility: visible !important;
+    pointer-events: auto;
     opacity: 1 !important;
     position: absolute;
     background: yellow; /* temporary for visibility */
