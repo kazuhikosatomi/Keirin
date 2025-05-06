@@ -11,14 +11,14 @@ h1 {
 
 /* board 背景と 75% 白ラインのみ */
 #board {
-  z-index: 0;
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: #cccccc; /* グレー背景（やや濃い）少し薄く */
+  background-color: #cccccc; /* やや薄いグレー */
   border: 2px solid #333;
   overflow: hidden;
   touch-action: none;
+  z-index: 0;
 }
 
 /* 白の横線（4分の3の位置） */
@@ -30,7 +30,7 @@ h1 {
   width: 100%;
   height: 2px;
   background-color: white;
-  z-index: 0; /* 背景と同じ階層 */
+  z-index: 0; /* 最背面に配置 */
 }
 
 .buttons {
@@ -45,20 +45,19 @@ button {
 
 .player-wrapper {
   position: absolute;
-  z-index: 10; /* 選手を前面に */
   display: flex;
   flex-direction: column;
   align-items: center;
   will-change: transform;
-  pointer-events: none; /* 全体のイベントを透過（子に任せる） */
+  pointer-events: none;
+  z-index: 10;
 }
-
 
 .player {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
   color: white;
   display: flex;
@@ -67,7 +66,7 @@ button {
   user-select: none;
   touch-action: none;
   border: 2px solid transparent;
-  pointer-events: auto; /* クリックを有効化 */
+  pointer-events: auto;
 }
 
 .player.selected {
@@ -76,7 +75,7 @@ button {
 
 .player-name {
   margin-top: 4px;
-  font-size: 12px;
+  font-size: 16px;
   width: 60px;
   text-align: center;
   border: none;
@@ -85,33 +84,28 @@ button {
 }
 
 .player-name::placeholder {
-  color: #aaa;
-  font-style: italic;
+  color: #888;
+  /* font-style: italic; */
 }
 
 .group-name {
   position: absolute;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   background: transparent;
+  padding: 2px 6px;
+  border-radius: 6px;
   border: none;
-  color: inherit;
   width: 100px;
   text-align: left;
-  pointer-events: auto;
-  padding: 2px 4px;
 }
 
 .group-name::placeholder {
-  color: #aaa;
+  color: #888;
   font-style: italic;
 }
 
-.player-name,
-.group-name {
-  font-size: 16px;
-}
-
+/* プレイヤーカラー */
 .player-1 { background-color: white; color: black; }
 .player-2 { background-color: black; }
 .player-3 { background-color: red; }
@@ -122,36 +116,6 @@ button {
 .player-8 { background-color: pink; color: black; }
 .player-9 { background-color: purple; }
 
-
-@media (max-width: 600px) {
-  .player {
-    width: 48px;
-    height: 48px;
-    font-size: 18px;
-  }
-
-  .player-name {
-    font-size: 10px;
-    width: 48px;
-  }
-
-  .group-name {
-    font-size: 12px;
-    width: 80px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 6px 10px;
-    margin: 2px 4px;
-  }
-
-  select {
-    font-size: 14px;
-    padding: 4px;
-  }
-}
-/* スマホ向け（横画面でも幅が狭い端末） */
 /* スマホ縦向き */
 @media (max-width: 600px) {
   h1 {
@@ -181,6 +145,7 @@ button {
   .player-name {
     font-size: 9px;
     width: 40px;
+    margin-top: 2px;
   }
 
   .group-name {
@@ -222,6 +187,7 @@ button {
   .player-name {
     font-size: 9px;
     width: 40px;
+    margin-top: 2px;
   }
 
   .group-name {
@@ -229,10 +195,7 @@ button {
     width: 70px;
   }
 
-  #board {
+  /* #board {
     height: 75vh;
-  }
+  } */
 }
-
-
-
