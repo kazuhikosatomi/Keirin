@@ -76,6 +76,7 @@ button {
 .player-name {
   margin-top: 4px;
   font-size: 16px;
+  font-weight: bold;
   width: 60px;
   text-align: center;
   border: none;
