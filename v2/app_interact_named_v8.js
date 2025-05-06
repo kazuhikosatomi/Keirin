@@ -1,4 +1,4 @@
-// app_interact_named_v8.js（プレースホルダー対応 + 全グループ一括バラし）
+// app_interact_named_v8.js（スマホ spacing 調整あり：さらに狭く）
 console.log("✅ app_interact_named_v8.js 読み込まれた！");
 
 const board = document.getElementById("board");
@@ -18,6 +18,9 @@ let players = [];
 let groupNames = {};
 
 function initializePlayers(count) {
+  const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
+  const spacing = isSmallScreen ? 40 : 70;
+
   players = Array.from({ length: count }, (_, i) => ({
     id: i + 1,
     x: 80 + i * 70,
@@ -157,14 +160,20 @@ groupButton.addEventListener("click", () => {
 
   const baseX = selected[0].x;
   const baseY = selected[0].y;
-  const spacing = 70;
+
+  const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
+  const spacing = isSmallScreen ? 40 : 70; // ✅ スマホは超狭く（25px）
+
   const newGroupId = Date.now();
+
+  console.log("✅ spacing 値（group）:", spacing);
 
   selected.forEach((p, i) => {
     p.groupId = newGroupId;
     p.x = baseX + i * spacing;
     p.y = baseY;
     p.selected = false;
+    console.log(`📍 選手 ${p.id}: x = ${p.x}, y = ${p.y}`);
   });
 
   groupNames[newGroupId] = "";

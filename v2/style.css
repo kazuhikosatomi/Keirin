@@ -12,7 +12,7 @@ h1 {
 #board {
   position: relative;
   width: 100vw;
-  /*height: 80vh;*/
+  height: 80vh;
   background: linear-gradient(to bottom right, #f0f0f0, #d0d0d0);
   border: 2px solid #333;
   overflow: hidden;
