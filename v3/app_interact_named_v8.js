@@ -65,6 +65,7 @@ function renderPlayers() {
       });
 
       board.appendChild(input);
+      console.log(`🟢 .group-name added at (${minX}, ${adjustedTop}) for group ${groupId}`);
     });
   }
 
