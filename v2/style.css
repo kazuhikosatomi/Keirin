@@ -12,7 +12,7 @@ h1 {
 #board {
   position: relative;
   width: 100vw;
-  height: 80vh;
+  /*height: 80vh;*/
   background: linear-gradient(to bottom right, #f0f0f0, #d0d0d0);
   border: 2px solid #333;
   overflow: hidden;
@@ -128,5 +128,87 @@ button {
   select {
     font-size: 14px;
     padding: 4px;
+  }
+}
+/* スマホ向け（横画面でも幅が狭い端末） */
+/* スマホ縦向き */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 16px;
+    margin: 4px 0;
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin: 4px 0;
+  }
+
+  button, select {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .player {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .player-name {
+    font-size: 9px;
+    width: 40px;
+  }
+
+  .group-name {
+    font-size: 11px;
+    width: 70px;
+  }
+
+  #board {
+    height: 75vh;
+  }
+}
+
+/* スマホ横向き */
+@media (max-height: 600px) and (orientation: landscape) {
+  h1 {
+    font-size: 16px;
+    margin: 4px 0;
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin: 4px 0;
+  }
+
+  button, select {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .player {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .player-name {
+    font-size: 9px;
+    width: 40px;
+  }
+
+  .group-name {
+    font-size: 11px;
+    width: 70px;
+  }
+
+  #board {
+    height: 75vh;
   }
 }
