@@ -74,6 +74,17 @@
       touch-action: none;
     }
 
+    #board::after {
+      content: "";
+      position: absolute;
+      top: 75%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: white;
+      z-index: 0;
+    }
+
     .group-name {
       font-size: 11px;
       font-weight: bold;
@@ -193,7 +204,7 @@
             <option value="9" selected>9</option>
           </select>
           <label for="playerCount">車立</label>
-          <span class="version-label">v23</span> <!-- ← 追加 -->
+          <span class="version-label">v24</span> <!-- ← 追加 -->
         </div>
       </div>
     </div>
@@ -201,7 +212,7 @@
 
   <div id="board"></div>
 
-  <script src="app_interact_named_v8.js?v=69"></script>
+  <script src="app_interact_named_v8.js?v=124"></script>
 
   <script>
     function adjustBoardHeight() {
