@@ -128,7 +128,7 @@ select#playerCount {
   position: absolute;
   font-size: 16px;
   font-weight: bold;
-  background: transparent;
+  background: yellow; /* temporary for visibility */
   padding: 2px 6px;
   border-radius: 6px;
   border: none;
@@ -207,6 +207,7 @@ select#playerCount {
     visibility: visible !important;
     opacity: 1 !important;
     position: absolute;
+    background: yellow; /* temporary for visibility */
   }
 
   #board {
@@ -224,5 +225,6 @@ select#playerCount {
     visibility: visible !important;
     opacity: 1 !important;
     position: absolute;
+    background: yellow; /* temporary for visibility */
   }
 }
