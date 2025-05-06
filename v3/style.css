@@ -128,21 +128,15 @@ select#playerCount {
   position: absolute;
   font-size: 16px;
   font-weight: bold;
-  background: yellow; /* temporary for visibility */
+  background: transparent;
   padding: 2px 6px;
   border-radius: 6px;
   border: none;
   width: 100px;
   text-align: left;
   display: block;
-  visibility: visible;
-  opacity: 1;
-  z-index: 20;
-  outline: 1px solid red; /* temporary for visibility testing */
-  z-index: 20 !important;
-  display: block !important;
   pointer-events: auto;
-  opacity: 1;
+  z-index: 30; /* increased from 20 */
 }
 
 .group-name::placeholder {
@@ -205,16 +199,17 @@ select#playerCount {
   }
 
   .group-name {
-    font-size: 11px;
-    font-weight: bold;
-    width: 70px;
-    top: -28px !important;
-    z-index: 20 !important;
-    display: block !important;
-    pointer-events: auto;
-    opacity: 1 !important;
     position: absolute;
-    background: yellow; /* temporary for visibility */
+    font-size: 16px;
+    font-weight: bold;
+    background: transparent;
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: none;
+    width: 100px;
+    text-align: left;
+    top: 72px;
+    z-index: 30;
   }
 
   #board {
@@ -224,15 +219,16 @@ select#playerCount {
 
 @media (max-height: 600px) and (orientation: landscape) {
   .group-name {
-    font-size: 11px;
-    font-weight: bold;
-    width: 70px;
-    top: -28px !important;
-    z-index: 20 !important;
-    display: block !important;
-    pointer-events: auto;
-    opacity: 1 !important;
     position: absolute;
-    background: yellow; /* temporary for visibility */
+    font-size: 16px;
+    font-weight: bold;
+    background: transparent;
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: none;
+    width: 100px;
+    text-align: left;
+    top: 72px;
+    z-index: 30;
   }
 }

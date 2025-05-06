@@ -81,7 +81,9 @@
       top: -22px !important;
       z-index: 15;
       pointer-events: auto;
-      display: block;
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
 
     @media (max-width: 600px) {
@@ -119,7 +121,9 @@
         top: -22px !important;
         z-index: 15;
         pointer-events: auto;
-        display: block;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
       }
     }
 
@@ -144,7 +148,9 @@
         top: -22px !important;
         z-index: 15;
         pointer-events: auto;
-        display: block;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
       }
 
       #board {
@@ -178,7 +184,7 @@
             <option value="9" selected>9</option>
           </select>
           <label for="playerCount">車立</label>
-          <span class="version-label">v21</span> <!-- ← 追加 -->
+          <span class="version-label">v23</span> <!-- ← 追加 -->
         </div>
       </div>
     </div>
@@ -186,7 +192,7 @@
 
   <div id="board"></div>
 
-  <script src="app_interact_named_v8.js?v=61"></script>
+  <script src="app_interact_named_v8.js?v=63"></script>
 
   <script>
     function adjustBoardHeight() {

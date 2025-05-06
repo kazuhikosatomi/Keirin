@@ -52,12 +52,14 @@ function renderPlayers() {
       const minX = Math.min(...groupPlayers.map(p => p.x));
       const minY = Math.min(...groupPlayers.map(p => p.y));
 
+      const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
+      console.log("🔍 input座標:", "left:", minX, "top:", minY - (isSmallScreen ? 16 : 28));
+
       const input = document.createElement("input");
       input.className = "group-name";
       input.placeholder = "ライン";
       input.value = groupNames[groupId] || "";
       input.style.left = `${minX}px`;
-      const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
       input.style.top = `${minY - (isSmallScreen ? 16 : 28)}px`;
       input.style.width = "100px";
 
