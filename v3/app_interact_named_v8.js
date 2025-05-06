@@ -55,7 +55,9 @@ function renderPlayers() {
       input.value = groupNames[groupId] || "";
       input.style.left = `${minX}px`;
       const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
-      input.style.top = `${minY - (isSmallScreen ? 16 : 28)}px`;
+      const topOffset = isSmallScreen ? 16 : 28;
+      const adjustedTop = Math.max(minY - topOffset, 0);
+      input.style.top = `${adjustedTop}px`;
       input.style.width = "100px";
 
       input.addEventListener("input", () => {
