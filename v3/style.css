@@ -200,6 +200,7 @@ select#playerCount {
     font-weight: bold;
     width: 70px;
     top: -22px !important;
+    display: block;
   }
 
   #board {
