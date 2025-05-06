@@ -192,6 +192,7 @@ select#playerCount {
     font-weight: bold;
     width: 40px;
     margin-top: 2px;
+    display: block;
   }
 
   .group-name {
