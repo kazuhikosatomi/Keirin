@@ -134,6 +134,9 @@ select#playerCount {
   border: none;
   width: 100px;
   text-align: left;
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .group-name::placeholder {
@@ -208,5 +211,18 @@ select#playerCount {
 
   #board {
     height: 75vh;
+  }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .group-name {
+    font-size: 11px;
+    font-weight: bold;
+    width: 70px;
+    top: -22px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: absolute;
   }
 }
