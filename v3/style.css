@@ -205,3 +205,6 @@ select#playerCount {
     height: 75vh;
   }
 }
+.group-name {
+  display: block !important;
+}
