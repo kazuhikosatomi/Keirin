@@ -54,7 +54,8 @@ function renderPlayers() {
       input.placeholder = "ライン";
       input.value = groupNames[groupId] || "";
       input.style.left = `${minX}px`;
-      input.style.top = `${minY - 28}px`;
+      const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
+      input.style.top = `${minY - (isSmallScreen ? 12 : 28)}px`;
       input.style.width = "100px";
 
       input.addEventListener("input", () => {
@@ -214,3 +215,5 @@ playerCountSelector.addEventListener("change", () => {
 });
 
 initializePlayers(Number(playerCountSelector.value));
+
+
