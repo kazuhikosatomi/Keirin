@@ -1,49 +1,132 @@
 body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #f0f0f0;
-    text-align: center;
-  }
-  
-  h1 {
-    margin: 16px;
-  }
-  
-  #board {
-    position: relative;
-    width: 100vw;
-    height: 80vh;
-    background: white;
-    border: 2px solid #333;
-    overflow: visible;
-    touch-action: none;
-  }
-  
+  margin: 0;
+  font-family: sans-serif;
+  background: #f0f0f0;
+  text-align: center;
+}
+
+h1 {
+  margin: 12px;
+}
+
+#board {
+  position: relative;
+  width: 100vw;
+  height: 80vh;
+  background: linear-gradient(to bottom right, #f0f0f0, #d0d0d0);
+  border: 2px solid #333;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.buttons {
+  margin: 8px;
+}
+
+button {
+  margin: 0 8px;
+  padding: 8px 16px;
+  font-size: 16px;
+}
+
+.player-wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+  pointer-events: none; /* 全体のイベントを透過（子に任せる） */
+}
+
+.player {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: none;
+  border: 2px solid transparent;
+  pointer-events: auto; /* クリックを有効化 */
+}
+
+.player.selected {
+  border-color: deepskyblue;
+}
+
+.player-name {
+  margin-top: 4px;
+  font-size: 12px;
+  width: 60px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  pointer-events: auto;
+}
+
+.player-name::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.group-name {
+  position: absolute;
+  font-size: 14px;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  color: inherit;
+  width: 100px;
+  text-align: left;
+  pointer-events: auto;
+  padding: 2px 4px;
+}
+
+.group-name::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.player-1 { background-color: white; color: black; }
+.player-2 { background-color: black; }
+.player-3 { background-color: red; }
+.player-4 { background-color: blue; }
+.player-5 { background-color: yellow; color: black; }
+.player-6 { background-color: green; }
+.player-7 { background-color: orange; }
+.player-8 { background-color: pink; color: black; }
+.player-9 { background-color: purple; }
+
+
+@media (max-width: 600px) {
   .player {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    position: absolute;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    touch-action: none;
-    transition: none !important;
-    will-change: transform;
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
   }
-  
-  
-  .player-1 { background-color: white; color: black; }
-  .player-2 { background-color: black; }
-  .player-3 { background-color: red; }
-  .player-4 { background-color: blue; }
-  .player-5 { background-color: yellow; color: black; }
-  .player-6 { background-color: green; }
-  .player-7 { background-color: orange; }
-  .player-8 { background-color: pink; color: black; }
-  .player-9 { background-color: purple; }
-  
+
+  .player-name {
+    font-size: 10px;
+    width: 48px;
+  }
+
+  .group-name {
+    font-size: 12px;
+    width: 80px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 6px 10px;
+    margin: 2px 4px;
+  }
+
+  select {
+    font-size: 14px;
+    padding: 4px;
+  }
+}
