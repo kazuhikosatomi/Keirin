@@ -204,10 +204,6 @@ toggleNamesButton.addEventListener("click", () => {
   renderPlayers();
 });
 
-toggleGroupsButton.addEventListener("click", () => {
-  showGroupNames = !showGroupNames;
-  renderPlayers();
-});
 
 playerCountSelector.addEventListener("change", () => {
   const newCount = Number(playerCountSelector.value);
@@ -215,3 +211,16 @@ playerCountSelector.addEventListener("change", () => {
 });
 
 initializePlayers(Number(playerCountSelector.value));
+
+window.addEventListener("load", () => {
+  const toggleGroupsButton = document.getElementById("toggleGroupsButton");
+  if (toggleGroupsButton) {
+    toggleGroupsButton.addEventListener("click", () => {
+      alert("✅ ライン名切り替えボタンが押されました！");
+      showGroupNames = !showGroupNames;
+      renderPlayers();
+    });
+  } else {
+    console.warn("❌ toggleGroupsButton が見つかりませんでした");
+  }
+});
