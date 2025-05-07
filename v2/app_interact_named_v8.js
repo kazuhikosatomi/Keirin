@@ -163,15 +163,16 @@ groupButton.addEventListener("click", () => {
   const baseY = selected[0].y;
 
   const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
-  const spacing = isSmallScreen ? 40 : 70; // ✅ スマホは超狭く（25px）
+  const spacing = isSmallScreen ? 40 : 70;
 
   const newGroupId = Date.now();
 
   console.log("✅ spacing 値（group）:", spacing);
 
+  let totalWidth = selected.length * 40;
   selected.forEach((p, i) => {
     p.groupId = newGroupId;
-    p.x = baseX + i * spacing;
+    p.x = baseX + i * 48; // Adjusted spacing
     p.y = baseY;
     p.selected = false;
     console.log(`📍 選手 ${p.id}: x = ${p.x}, y = ${p.y}`);
@@ -215,5 +216,3 @@ playerCountSelector.addEventListener("change", () => {
 });
 
 initializePlayers(Number(playerCountSelector.value));
-
-
