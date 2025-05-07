@@ -28,7 +28,7 @@ function initializePlayers(count) {
     return {
       id: i + 1,
       x: 80 + col * 70,
-      y: 40 + row * 70,
+      y: 25 + row * 70,
       name: "",
       selected: false,
       groupId: null,
