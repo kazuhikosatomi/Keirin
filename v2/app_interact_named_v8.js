@@ -21,14 +21,19 @@ function initializePlayers(count) {
   const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
   const spacing = isSmallScreen ? 40 : 70;
 
-  players = Array.from({ length: count }, (_, i) => ({
-    id: i + 1,
-    x: 80 + i * 70,
-    y: 100,
-    name: "",
-    selected: false,
-    groupId: null,
-  }));
+  // Display players in a 3x3 grid if count is 9 (default: 3-column layout)
+  players = Array.from({ length: count }, (_, i) => {
+    const col = i % 3;
+    const row = Math.floor(i / 3);
+    return {
+      id: i + 1,
+      x: 80 + col * 70,
+      y: 100 + row * 100,
+      name: "",
+      selected: false,
+      groupId: null,
+    };
+  });
   groupNames = {};
   renderPlayers();
 }
