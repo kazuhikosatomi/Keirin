@@ -177,7 +177,7 @@ groupButton.addEventListener("click", () => {
   let totalWidth = selected.length * 40;
   selected.forEach((p, i) => {
     p.groupId = newGroupId;
-    p.x = baseX + i * 48; // Adjusted spacing
+    p.x = baseX + i * spacing;
     p.y = baseY;
     p.selected = false;
     console.log(`📍 選手 ${p.id}: x = ${p.x}, y = ${p.y}`);
