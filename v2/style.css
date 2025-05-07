@@ -87,6 +87,7 @@ select#playerCount {
   will-change: transform;
   pointer-events: none;
   z-index: 10;
+  transition: transform 0.15s ease-out;
 }
 
 .player {
