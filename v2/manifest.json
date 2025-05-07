@@ -1,6 +1,6 @@
 {
-    "name": "Keirin 展開予想ボード",
-    "short_name": "KeirinBoard",
+    "name": "競輪部公式app",
+    "short_name": "競輪部公式app",
     "start_url": "./index.html",
     "display": "standalone",
     "orientation": "landscape",
