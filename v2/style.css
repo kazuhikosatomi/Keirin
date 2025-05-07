@@ -259,6 +259,7 @@ select#playerCount {
 }
 
 .player-wrapper.dragging {
-  transform: scale(1.2);
+  transform: scale(1.3);
   z-index: 100;
+  transition: transform 0.15s ease-in-out;
 }
