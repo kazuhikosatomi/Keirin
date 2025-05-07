@@ -198,6 +198,7 @@ ungroupAllButton.addEventListener("click", () => {
   });
   groupNames = {};
   renderPlayers();
+  showToast("全てのラインが解除されました");
 });
 
 toggleNamesButton.addEventListener("click", () => {
@@ -214,5 +215,18 @@ playerCountSelector.addEventListener("change", () => {
   const newCount = Number(playerCountSelector.value);
   initializePlayers(newCount);
 });
+
+// トーストメッセージ表示用関数
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
 
 initializePlayers(Number(playerCountSelector.value));
