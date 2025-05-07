@@ -115,9 +115,8 @@ function renderPlayers() {
 function setupInteract() {
   interact(".player-wrapper").draggable({
     listeners: {
-      start(event) {
+      start() {
         isDragging = true;
-        event.target.classList.add("dragging");
         dragPreventClick = true;
       },
       move(event) {
@@ -139,8 +138,7 @@ function setupInteract() {
 
         renderPlayers();
       },
-      end(event) {
-        event.target.classList.remove("dragging");
+      end() {
         isDragging = false;
         setTimeout(() => { dragPreventClick = false; }, 100);
       }
@@ -182,6 +180,7 @@ groupButton.addEventListener("click", () => {
 
   groupNames[newGroupId] = "";
   renderPlayers();
+  showToast("選択選手のラインを形成しました");
 });
 
 ungroupButton.addEventListener("click", () => {
@@ -217,6 +216,37 @@ toggleGroupsButton.addEventListener("click", () => {
 playerCountSelector.addEventListener("change", () => {
   const newCount = Number(playerCountSelector.value);
   initializePlayers(newCount);
+});
+
+// 保存・復元ボタンの処理
+const saveButton = document.getElementById("saveButton");
+const loadButton = document.getElementById("loadButton");
+
+saveButton.addEventListener("click", () => {
+  const state = {
+    players,
+    groupNames,
+    showPlayerNames,
+    showGroupNames
+  };
+  localStorage.setItem("keirinState", JSON.stringify(state));
+  showToast("保存しました");
+});
+
+loadButton.addEventListener("click", () => {
+  const stateStr = localStorage.getItem("keirinState");
+  if (!stateStr) return;
+  try {
+    const state = JSON.parse(stateStr);
+    players = state.players || [];
+    groupNames = state.groupNames || {};
+    showPlayerNames = state.showPlayerNames || false;
+    showGroupNames = state.showGroupNames || false;
+    renderPlayers();
+    showToast("復元しました");
+  } catch (e) {
+    console.error("復元エラー:", e);
+  }
 });
 
 // トーストメッセージ表示用関数
