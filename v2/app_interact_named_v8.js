@@ -189,6 +189,7 @@ ungroupButton.addEventListener("click", () => {
       p.selected = false;
     }
   });
+  showToast("選択選手のラインを解除しました");
   renderPlayers();
 });
 
