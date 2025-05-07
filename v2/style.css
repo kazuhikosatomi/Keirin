@@ -257,3 +257,8 @@ select#playerCount {
   visibility: visible;
   opacity: 1;
 }
+
+.player-wrapper.dragging {
+  transform: scale(1.2);
+  z-index: 100;
+}

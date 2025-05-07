@@ -115,8 +115,9 @@ function renderPlayers() {
 function setupInteract() {
   interact(".player-wrapper").draggable({
     listeners: {
-      start() {
+      start(event) {
         isDragging = true;
+        event.target.classList.add("dragging");
         dragPreventClick = true;
       },
       move(event) {
@@ -138,7 +139,8 @@ function setupInteract() {
 
         renderPlayers();
       },
-      end() {
+      end(event) {
+        event.target.classList.remove("dragging");
         isDragging = false;
         setTimeout(() => { dragPreventClick = false; }, 100);
       }
