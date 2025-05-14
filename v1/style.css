@@ -1,0 +1,281 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #f0f0f0;
+  text-align: center;
+}
+
+h1 {
+  margin: 12px;
+}
+
+.logo {
+  height: 96px;
+  margin-right: 8px;
+}
+
+/* board 背景と 75% 白ラインのみ */
+#board {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #cccccc;
+  border: 2px solid #333;
+  overflow: hidden;
+  touch-action: none;
+  z-index: 0;
+}
+
+/* 白の横線（4分の3の位置） */
+#board::after {
+  content: "";
+  position: absolute;
+  top: 75%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  z-index: 0;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 8px;
+  gap: 6px;
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-start; /* ✅ 左寄せ */
+}
+
+.player-select {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.version-label {
+  font-size: 12px;
+  color: #666;
+  margin-left: 8px;
+}
+
+button {
+  font-size: 16px;
+  padding: 8px 16px;
+  flex: 1;
+  min-width: 128px;
+  max-width: 128px;
+}
+
+select#playerCount {
+  font-size: 14px;
+  padding: 6px 10px;
+}
+
+.player-wrapper {
+  position: absolute;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.player {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: none;
+  border: 2px solid transparent;
+  pointer-events: auto;
+}
+
+.player.selected {
+  border-color: deepskyblue;
+  transform: scale(1.2);
+  transition: transform 0.2s ease;
+}
+
+.player-name {
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 60px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  pointer-events: auto;
+}
+
+.player-name::placeholder {
+  color: #888;
+}
+
+.group-name {
+  position: absolute;
+  font-size: 16px;
+  font-weight: bold;
+  background: transparent;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: none;
+  width: 100px;
+  text-align: left;
+}
+
+.group-name::placeholder {
+  color: #888;
+}
+
+/* プレイヤーカラー */
+.player-1 { background-color: white; color: black; }
+.player-2 { background-color: black; }
+.player-3 { background-color: red; }
+.player-4 { background-color: blue; }
+.player-5 { background-color: yellow; color: black; }
+.player-6 { background-color: green; }
+.player-7 { background-color: orange; }
+.player-8 { background-color: pink; color: black; }
+.player-9 { background-color: purple; }
+
+/* スマホ縦向き */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 16px;
+    margin: 4px 0;
+  }
+
+  .logo {
+    height: 55px;
+  }
+
+  .buttons {
+    margin: 4px;
+    gap: 6px;
+  }
+
+  .button-row {
+    gap: 4px;
+    justify-content: flex-start;
+  }
+
+  button, select {
+    font-size: 12px;
+    padding: 4px 8px;
+    flex: 1;
+    min-width: 128px;
+    max-width: 128px;
+  }
+
+  .player {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .player-name {
+    font-size: 11px;
+    font-weight: bold;
+    width: 40px;
+    margin-top: 2px;
+  }
+
+  .group-name {
+    font-size: 11px;
+    font-weight: bold;
+    width: 70px;
+    transform: translateY(-7px);
+  }
+
+  #board {
+    height: 75vh;
+  }
+
+}
+
+@media (max-height: 600px) {
+  .player {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .player-name {
+    font-size: 11px;
+    font-weight: bold;
+    width: 40px;
+    margin-top: 2px;
+  }
+
+  .group-name {
+    font-size: 11px;
+    font-weight: bold;
+    width: 70px;
+    transform: translateY(-7px);
+  }
+
+  #board {
+    height: 75vh;
+  }
+}
+
+
+/* トースト通知 */
+#toast {
+  visibility: hidden;
+  min-width: 200px;
+  background-color: rgba(60, 60, 60, 0.9);
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px 16px;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  font-size: 14px;
+  transition: visibility 0s, opacity 0.5s ease-in-out;
+  opacity: 0;
+}
+
+#toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.selection-order {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: red;
+  color: white;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
