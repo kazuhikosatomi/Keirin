@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>競輪部 公式app</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=172.5" />
   <style>
     body {
       margin: 0;
@@ -74,32 +74,6 @@
       touch-action: none;
     }
 
-    #board::after {
-      content: "";
-      position: absolute;
-      top: 75%;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background-color: white;
-      z-index: 0;
-    }
-
-    .group-name {
-      font-size: 11px;
-      font-weight: bold;
-      width: 70px;
-      top: 72px !important;
-      z-index: 15;
-      pointer-events: auto;
-      display: block !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-      position: absolute;
-      background: transparent;
-      color: #000;
-    }
-
     @media (max-width: 600px) {
       button {
         font-size: 12px;
@@ -114,68 +88,6 @@
       #board {
         height: calc(100vh - 120px);
       }
-
-      .player {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-      }
-
-      .player-name {
-        font-size: 9px;
-        font-weight: bold;
-        width: 40px;
-        margin-top: 2px;
-      }
-
-      .group-name {
-        font-size: 11px;
-        font-weight: bold;
-        width: 70px;
-        top: 72px !important;
-        z-index: 15;
-        pointer-events: auto;
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        position: absolute;
-        background: transparent;
-        color: #000;
-      }
-    }
-
-    @media (max-height: 600px) and (orientation: landscape) {
-      .player {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-      }
-
-      .player-name {
-        font-size: 9px;
-        font-weight: bold;
-        width: 40px;
-        margin-top: 2px;
-      }
-
-      .group-name {
-        font-size: 11px;
-        font-weight: bold;
-        width: 70px;
-        top: 72px !important;
-        z-index: 15;
-        pointer-events: auto;
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        position: absolute;
-        background: transparent;
-        color: #000;
-      }
-
-      #board {
-        height: 75vh;
-      }
     }
   </style>
   <link rel="manifest" href="manifest.json" />
@@ -184,19 +96,19 @@
 <body>
 
   <header class="header">
-    <img src="keirinbu_logo.png" alt="競輪部 ロゴ" class="logo" id="logo" />
+    <img id="logo" src="keirinbu_logo.png" alt="競輪部 ロゴ" class="logo" />
 
     <div class="right-buttons">
       <div class="button-row">
-        <button id="toggleNamesButton">選手名</button>
-        <button id="toggleGroupsButton">ライン名</button>
+        <button id="toggleNamesButton">選手名 表示</button>
+        <button id="toggleGroupsButton">ライン名 表示</button>
         <button id="saveButton">保存</button>
         <button id="loadButton">復元</button>
       </div>
       <div class="button-row">
-        <button id="groupButton">ライン形成</button>
-        <button id="ungroupButton">ライン解除</button>
-        <button id="ungroupAllButton">全て解除</button>
+        <button id="groupButton">ライン 形成</button>
+        <button id="ungroupButton">ライン 一部解除</button>
+        <button id="ungroupAllButton">ライン 全解除</button>
         <div class="player-select">
           <select id="playerCount">
             <option value="7">7</option>
@@ -204,7 +116,7 @@
             <option value="9" selected>9</option>
           </select>
           <label for="playerCount">車立</label>
-          <span class="version-label">v24</span> <!-- ← 追加 -->
+          <span class="version-label">v172.5</span> <!-- ← 追加 -->
         </div>
       </div>
     </div>
@@ -212,7 +124,7 @@
 
   <div id="board"></div>
 
-  <script src="app_interact_named_v8.js?v=124"></script>
+  <script src="app_interact_named_v8.js?v=172.5"></script>
 
   <script>
     function adjustBoardHeight() {
@@ -225,12 +137,17 @@
 
     window.addEventListener("load", adjustBoardHeight);
     window.addEventListener("resize", adjustBoardHeight);
+  </script>
 
-    // ロゴタップで初期化（リロード）
+  <script>
     document.getElementById("logo")?.addEventListener("click", () => {
       location.reload();
     });
   </script>
 
+</div>
+</body>
+</div>
+  <div id="toast" class="toast-message"></div>
 </body>
 </html>

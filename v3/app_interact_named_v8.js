@@ -10,7 +10,7 @@ const toggleGroupsButton = document.getElementById("toggleGroupsButton");
 const playerCountSelector = document.getElementById("playerCount");
 
 let showPlayerNames = false;
-let showGroupNames = true;
+let showGroupNames = false;
 let isDragging = false;
 let dragPreventClick = false;
 
@@ -21,20 +21,24 @@ function initializePlayers(count) {
   const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
   const spacing = isSmallScreen ? 40 : 70;
 
-  players = Array.from({ length: count }, (_, i) => ({
-    id: i + 1,
-    x: 80 + i * 70,
-    y: 100,
-    name: "",
-    selected: false,
-    groupId: null,
-  }));
+  // Display players in a 3x3 grid if count is 9 (default: 3-column layout)
+  players = Array.from({ length: count }, (_, i) => {
+    const col = i % 3;
+    const row = Math.floor(i / 3);
+    return {
+      id: i + 1,
+      x: 80 + col * 70,
+      y: 25 + row * 70,
+      name: "",
+      selected: false,
+      groupId: null,
+    };
+  });
   groupNames = {};
   renderPlayers();
 }
 
 function renderPlayers() {
-  console.log("👁 showGroupNames:", showGroupNames);
   board.innerHTML = "";
 
   const grouped = {};
@@ -46,21 +50,17 @@ function renderPlayers() {
   });
 
   if (showGroupNames) {
-    console.log("🟡 グループ名描画開始: group count =", Object.keys(grouped).length);
     Object.entries(grouped).forEach(([groupId, groupPlayers]) => {
-      console.log("🟢 グループ描画:", groupId, "人数:", groupPlayers.length);
       const minX = Math.min(...groupPlayers.map(p => p.x));
       const minY = Math.min(...groupPlayers.map(p => p.y));
-
-      const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
-      console.log("🔍 input座標:", "left:", minX, "top:", minY - (isSmallScreen ? 16 : 28));
 
       const input = document.createElement("input");
       input.className = "group-name";
       input.placeholder = "ライン";
       input.value = groupNames[groupId] || "";
       input.style.left = `${minX}px`;
-      input.style.top = `${minY - (isSmallScreen ? 28 : 28)}px`;
+      const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
+      input.style.top = `${minY - (isSmallScreen ? 16 : 28)}px`;
       input.style.width = "100px";
 
       input.addEventListener("input", () => {
@@ -68,7 +68,6 @@ function renderPlayers() {
       });
 
       board.appendChild(input);
-      console.log("🟣 input 追加:", input.outerHTML);
     });
   }
 
@@ -169,15 +168,16 @@ groupButton.addEventListener("click", () => {
   const baseY = selected[0].y;
 
   const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
-  const spacing = isSmallScreen ? 45 : 70; // ✅ スマホは超狭く（25px）
+  const spacing = isSmallScreen ? 40 : 70;
 
   const newGroupId = Date.now();
 
   console.log("✅ spacing 値（group）:", spacing);
 
+  let totalWidth = selected.length * 40;
   selected.forEach((p, i) => {
     p.groupId = newGroupId;
-    p.x = baseX + i * spacing;
+    p.x = baseX + i * 48; // Adjusted spacing
     p.y = baseY;
     p.selected = false;
     console.log(`📍 選手 ${p.id}: x = ${p.x}, y = ${p.y}`);
@@ -185,6 +185,7 @@ groupButton.addEventListener("click", () => {
 
   groupNames[newGroupId] = "";
   renderPlayers();
+  showToast("選択選手のラインを形成しました");
 });
 
 ungroupButton.addEventListener("click", () => {
@@ -194,6 +195,7 @@ ungroupButton.addEventListener("click", () => {
       p.selected = false;
     }
   });
+  showToast("選択選手のラインを解除しました");
   renderPlayers();
 });
 
@@ -203,6 +205,7 @@ ungroupAllButton.addEventListener("click", () => {
   });
   groupNames = {};
   renderPlayers();
+  showToast("全てのラインが解除されました");
 });
 
 toggleNamesButton.addEventListener("click", () => {
@@ -214,15 +217,54 @@ toggleGroupsButton.addEventListener("click", () => {
   showGroupNames = !showGroupNames;
   renderPlayers();
 });
-toggleGroupsButton.addEventListener("touchend", (e) => {
-  e.preventDefault();
-  showGroupNames = !showGroupNames;
-  renderPlayers();
-}, { passive: false });
 
 playerCountSelector.addEventListener("change", () => {
   const newCount = Number(playerCountSelector.value);
   initializePlayers(newCount);
 });
+
+// 保存・復元ボタンの処理
+const saveButton = document.getElementById("saveButton");
+const loadButton = document.getElementById("loadButton");
+
+saveButton.addEventListener("click", () => {
+  const state = {
+    players,
+    groupNames,
+    showPlayerNames,
+    showGroupNames
+  };
+  localStorage.setItem("keirinState", JSON.stringify(state));
+  showToast("保存しました");
+});
+
+loadButton.addEventListener("click", () => {
+  const stateStr = localStorage.getItem("keirinState");
+  if (!stateStr) return;
+  try {
+    const state = JSON.parse(stateStr);
+    players = state.players || [];
+    groupNames = state.groupNames || {};
+    showPlayerNames = state.showPlayerNames || false;
+    showGroupNames = state.showGroupNames || false;
+    renderPlayers();
+    showToast("復元しました");
+  } catch (e) {
+    console.error("復元エラー:", e);
+  }
+});
+
+// トーストメッセージ表示用関数
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
 
 initializePlayers(Number(playerCountSelector.value));
