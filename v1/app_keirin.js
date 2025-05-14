@@ -16,6 +16,7 @@ let dragPreventClick = false;
 
 let players = [];
 let groupNames = {};
+let selectionOrder = [];
 
 function initializePlayers(count) {
   const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
@@ -28,7 +29,7 @@ function initializePlayers(count) {
     return {
       id: i + 1,
       x: 80 + col * 70,
-      y: 25 + row * 70,
+      y: 10 + row * 60,
       name: "",
       selected: false,
       groupId: null,
@@ -39,6 +40,8 @@ function initializePlayers(count) {
 }
 
 function renderPlayers() {
+  selectionOrder = selectionOrder.filter(id => players.some(p => p.id === id && p.selected));
+
   board.innerHTML = "";
 
   const grouped = {};
@@ -85,7 +88,7 @@ function renderPlayers() {
     circle.textContent = player.id;
     // Add selection order indicator if selected
     if (player.selected) {
-      const orderIndex = players.filter(p => p.selected && p.id <= player.id).length;
+      const orderIndex = selectionOrder.indexOf(player.id) + 1;
       const orderCircle = document.createElement("div");
       orderCircle.className = "selection-order";
       orderCircle.textContent = orderIndex;
@@ -95,6 +98,11 @@ function renderPlayers() {
     circle.addEventListener("click", () => {
       if (dragPreventClick) return;
       player.selected = !player.selected;
+      if (player.selected) {
+        selectionOrder.push(player.id);
+      } else {
+        selectionOrder = selectionOrder.filter(id => id !== player.id);
+      }
       renderPlayers();
     });
 
@@ -102,6 +110,11 @@ function renderPlayers() {
       e.preventDefault();
       if (dragPreventClick) return;
       player.selected = !player.selected;
+      if (player.selected) {
+        selectionOrder.push(player.id);
+      } else {
+        selectionOrder = selectionOrder.filter(id => id !== player.id);
+      }
       renderPlayers();
     }, { passive: false });
 
