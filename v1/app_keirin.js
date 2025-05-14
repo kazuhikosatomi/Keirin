@@ -19,17 +19,14 @@ let groupNames = {};
 let selectionOrder = [];
 
 function initializePlayers(count) {
-  const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
-  const spacing = isSmallScreen ? 40 : 70;
-
-  // Display players in a 3x3 grid if count is 9 (default: 3-column layout)
+  // Updated player layout: three per row, tighter and more top-left position
   players = Array.from({ length: count }, (_, i) => {
     const col = i % 3;
     const row = Math.floor(i / 3);
     return {
       id: i + 1,
-      x: 30 + col * 90,
-      y: 30 + row * 90,
+      x: 10 + col * 90,
+      y: 10 + row * 75,
       name: "",
       selected: false,
       groupId: null,
