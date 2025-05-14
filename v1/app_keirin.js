@@ -28,8 +28,8 @@ function initializePlayers(count) {
     const row = Math.floor(i / 3);
     return {
       id: i + 1,
-      x: 80 + col * 90,
-      y: 40 + row * 90,
+      x: 30 + col * 90,
+      y: 30 + row * 90,
       name: "",
       selected: false,
       groupId: null,
