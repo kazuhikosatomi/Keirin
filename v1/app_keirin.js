@@ -29,12 +29,13 @@ function initializePlayers(count) {
     console.log(`🔹 Player ${i + 1} -> col: ${col}, row: ${row}, x: ${60 + col * 100}, y: ${120 + row * 100}`);
     return {
       id: i + 1,
-      x: 60 + col * 100,
-      y: 60 + row * 100,
+      x: 60 + col * 80,
+      y: 60 + row * 80,
       name: "",
       selected: false,
       selectedOrder: undefined,
       groupId: null,
+      dragging: false,
     };
   });
   groupNames = {};
@@ -77,7 +78,8 @@ function renderPlayers() {
   players.forEach(player => {
     const wrapper = document.createElement("div");
     wrapper.className = "player-wrapper";
-    wrapper.style.transform = `translate(${player.x}px, ${player.y}px)`;
+    const scale = player.dragging ? 1.2 : 1;
+    wrapper.style.transform = `translate(${player.x}px, ${player.y}px) scale(${scale})`;
     wrapper.dataset.id = player.id;
 
     const circle = document.createElement("div");
@@ -148,18 +150,33 @@ function renderPlayers() {
     board.appendChild(wrapper);
   });
 
+
   setupInteract();
+
+  // Move dragging reset to the very end, after DOM rendering and interact setup
+  if (!isDragging) {
+    players.forEach(p => p.dragging = false);
+  }
 }
 
 function setupInteract() {
   interact(".player-wrapper").draggable({
     listeners: {
       start(event) {
+        console.log("🟢 Drag start:", event.target);
         isDragging = true;
         dragPreventClick = true;
-        event.target.classList.add("dragging");
+        const playerCircle = event.target.querySelector('.player');
+        if (playerCircle) {
+          playerCircle.classList.add("dragging");
+        }
+        const id = Number(event.target.dataset.id);
+        const player = players.find(p => p.id === id);
+        const group = player?.groupId ? players.filter(p => p.groupId === player.groupId) : [player];
+        group.forEach(p => p.dragging = true);
       },
       move(event) {
+        console.log("🟡 Drag move:", event.dx, event.dy);
         const id = Number(event.target.dataset.id);
         const player = players.find(p => p.id === id);
         if (!player) return;
@@ -179,9 +196,19 @@ function setupInteract() {
         renderPlayers();
       },
       end(event) {
+        console.log("🔴 Drag end");
         isDragging = false;
         setTimeout(() => { dragPreventClick = false; }, 100);
-        event.target.classList.remove("dragging");
+        const playerCircle = event.target.querySelector('.player');
+        if (playerCircle) {
+          playerCircle.classList.remove("dragging");
+        }
+        const id = Number(event.target.dataset.id);
+        const player = players.find(p => p.id === id);
+        const group = player?.groupId ? players.filter(p => p.groupId === player.groupId) : [player];
+        group.forEach(p => p.dragging = false);
+        // Ensure dragging state visually updates immediately after drag ends
+        renderPlayers();
       }
     },
     inertia: true,
@@ -213,7 +240,7 @@ groupButton.addEventListener("click", () => {
   let totalWidth = selected.length * 40;
   selected.forEach((p, i) => {
     p.groupId = newGroupId;
-    p.x = baseX + i * 48; // Adjusted spacing
+    p.x = baseX + i * 60; // Adjusted spacing
     p.y = baseY;
     p.selected = false;
     p.selectedOrder = undefined;
@@ -333,9 +360,14 @@ style.textContent = `
   pointer-events: none;
 }
 
-.player-wrapper.dragging .player {
+.player-wrapper.dragging {
+  z-index: 1000;
+}
+
+.player.dragging {
   transform: scale(1.4);
   transition: transform 0.2s ease;
+  z-index: 1000;
 }
 `;
 document.head.appendChild(style);

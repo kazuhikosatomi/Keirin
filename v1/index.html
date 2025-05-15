@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>競輪部 公式app</title>
-  <link rel="stylesheet" href="style.css?v=185" />
+  <link rel="stylesheet" href="style.css?v=188" />
   <style>
     body {
       margin: 0;
@@ -74,6 +74,12 @@
       touch-action: none;
     }
 
+    .player.dragging {
+      scale: 1.4;
+      transition: scale 0.2s ease;
+      z-index: 1000;
+    }
+
     @media (max-width: 600px) {
       button {
         font-size: 12px;
@@ -116,7 +122,7 @@
             <option value="9" selected>9</option>
           </select>
           <label for="playerCount">車立</label>
-          <span class="version-label">v185</span> <!-- ← 追加 -->
+          <span class="version-label">v188</span> <!-- ← 追加 -->
         </div>
       </div>
     </div>
@@ -124,7 +130,7 @@
 
   <div id="board"></div>
 
-  <script src="app_keirin.js?v=185"></script>
+  <script src="app_keirin.js?v=188"></script>
 
   <script>
     function adjustBoardHeight() {

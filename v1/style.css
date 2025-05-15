@@ -107,8 +107,6 @@ select#playerCount {
 
 .player.selected {
   border-color: deepskyblue;
-  transform: scale(1.2);
-  transition: transform 0.2s ease;
 }
 
 .player-name {
@@ -277,4 +275,8 @@ select#playerCount {
   pointer-events: none;
   z-index: 20;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.player.dragging {
+  z-index: 1000;
 }
