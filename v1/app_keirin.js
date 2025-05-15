@@ -16,19 +16,24 @@ let dragPreventClick = false;
 
 let players = [];
 let groupNames = {};
-let selectionOrder = [];
 
 function initializePlayers(count) {
-  // Updated player layout: three per row, tighter and more top-left position
+  console.log("🟡 initializePlayers called with count:", count);
+  const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 600;
+  const spacing = isSmallScreen ? 40 : 70;
+
+  // Use a fixed 3-column grid for 7–9 players (restores original working layout)
   players = Array.from({ length: count }, (_, i) => {
     const col = i % 3;
     const row = Math.floor(i / 3);
+    console.log(`🔹 Player ${i + 1} -> col: ${col}, row: ${row}, x: ${60 + col * 100}, y: ${120 + row * 100}`);
     return {
       id: i + 1,
-      x: 10 + col * 90,
-      y: 10 + row * 75,
+      x: 60 + col * 100,
+      y: 120 + row * 100,
       name: "",
       selected: false,
+      selectedOrder: undefined,
       groupId: null,
     };
   });
@@ -37,8 +42,6 @@ function initializePlayers(count) {
 }
 
 function renderPlayers() {
-  selectionOrder = selectionOrder.filter(id => players.some(p => p.id === id && p.selected));
-
   board.innerHTML = "";
 
   const grouped = {};
@@ -79,26 +82,30 @@ function renderPlayers() {
 
     const circle = document.createElement("div");
     circle.className = `player player-${player.id}`;
-    if (player.selected) {
-      circle.classList.add("selected");
-    }
+    if (player.selected) circle.classList.add("selected");
     circle.textContent = player.id;
-    // Add selection order indicator if selected
-    if (player.selected) {
-      const orderIndex = selectionOrder.indexOf(player.id) + 1;
-      const orderCircle = document.createElement("div");
-      orderCircle.className = "selection-order";
-      orderCircle.textContent = orderIndex;
-      wrapper.appendChild(orderCircle);
+
+    if (player.selectedOrder !== undefined) {
+      const orderBadge = document.createElement("div");
+      orderBadge.className = "selection-order";
+      orderBadge.textContent = player.selectedOrder + 1;
+      circle.appendChild(orderBadge);
     }
 
     circle.addEventListener("click", () => {
       if (dragPreventClick) return;
-      player.selected = !player.selected;
-      if (player.selected) {
-        selectionOrder.push(player.id);
+      if (!player.selected) {
+        player.selected = true;
+        player.selectedOrder = players.filter(p => p.selected).length - 1;
       } else {
-        selectionOrder = selectionOrder.filter(id => id !== player.id);
+        const removedOrder = player.selectedOrder;
+        player.selected = false;
+        player.selectedOrder = undefined;
+        players.forEach(p => {
+          if (p.selected && p.selectedOrder > removedOrder) {
+            p.selectedOrder -= 1;
+          }
+        });
       }
       renderPlayers();
     });
@@ -106,11 +113,18 @@ function renderPlayers() {
     circle.addEventListener("touchend", (e) => {
       e.preventDefault();
       if (dragPreventClick) return;
-      player.selected = !player.selected;
-      if (player.selected) {
-        selectionOrder.push(player.id);
+      if (!player.selected) {
+        player.selected = true;
+        player.selectedOrder = players.filter(p => p.selected).length - 1;
       } else {
-        selectionOrder = selectionOrder.filter(id => id !== player.id);
+        const removedOrder = player.selectedOrder;
+        player.selected = false;
+        player.selectedOrder = undefined;
+        players.forEach(p => {
+          if (p.selected && p.selectedOrder > removedOrder) {
+            p.selectedOrder -= 1;
+          }
+        });
       }
       renderPlayers();
     }, { passive: false });
@@ -182,7 +196,7 @@ groupButton.addEventListener("click", () => {
   const selected = players.filter(p => p.selected);
   if (selected.length === 0) return;
 
-  selected.sort((a, b) => a.x - b.x);
+  selected.sort((a, b) => a.selectedOrder - b.selectedOrder || a.x - b.x);
 
   const baseX = selected[0].x;
   const baseY = selected[0].y;
@@ -200,6 +214,7 @@ groupButton.addEventListener("click", () => {
     p.x = baseX + i * 48; // Adjusted spacing
     p.y = baseY;
     p.selected = false;
+    p.selectedOrder = undefined;
     console.log(`📍 選手 ${p.id}: x = ${p.x}, y = ${p.y}`);
   });
 
@@ -213,6 +228,7 @@ ungroupButton.addEventListener("click", () => {
     if (p.selected) {
       p.groupId = null;
       p.selected = false;
+      p.selectedOrder = undefined;
     }
   });
   showToast("選択選手のラインを解除しました");
@@ -222,6 +238,8 @@ ungroupButton.addEventListener("click", () => {
 ungroupAllButton.addEventListener("click", () => {
   players.forEach(p => {
     p.groupId = null;
+    p.selected = false;
+    p.selectedOrder = undefined;
   });
   groupNames = {};
   renderPlayers();
@@ -288,3 +306,29 @@ function showToast(message) {
 }
 
 initializePlayers(Number(playerCountSelector.value));
+
+/* Add CSS styles for selected and selection order */
+const style = document.createElement('style');
+style.textContent = `
+.player.selected {
+  transform: scale(1.2);
+  z-index: 10;
+  position: relative;
+}
+
+.selection-order {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  text-align: center;
+  line-height: 20px;
+  pointer-events: none;
+}
+`;
+document.head.appendChild(style);
