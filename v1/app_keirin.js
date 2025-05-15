@@ -154,9 +154,10 @@ function renderPlayers() {
 function setupInteract() {
   interact(".player-wrapper").draggable({
     listeners: {
-      start() {
+      start(event) {
         isDragging = true;
         dragPreventClick = true;
+        event.target.classList.add("dragging");
       },
       move(event) {
         const id = Number(event.target.dataset.id);
@@ -177,9 +178,10 @@ function setupInteract() {
 
         renderPlayers();
       },
-      end() {
+      end(event) {
         isDragging = false;
         setTimeout(() => { dragPreventClick = false; }, 100);
+        event.target.classList.remove("dragging");
       }
     },
     inertia: true,
@@ -329,6 +331,11 @@ style.textContent = `
   text-align: center;
   line-height: 20px;
   pointer-events: none;
+}
+
+.player-wrapper.dragging .player {
+  transform: scale(1.4);
+  transition: transform 0.2s ease;
 }
 `;
 document.head.appendChild(style);
