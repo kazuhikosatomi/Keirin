@@ -30,7 +30,7 @@ function initializePlayers(count) {
     return {
       id: i + 1,
       x: 60 + col * 100,
-      y: 120 + row * 100,
+      y: 60 + row * 100,
       name: "",
       selected: false,
       selectedOrder: undefined,
